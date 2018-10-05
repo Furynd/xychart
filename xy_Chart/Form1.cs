@@ -1,0 +1,533 @@
+﻿using System;
+using System.Windows.Forms;
+using System.Threading;
+using System.IO.Ports;
+using System.Drawing;
+using System.Collections.Generic;
+using System.IO;
+
+namespace xy_Chart
+{
+    public partial class Form1 : Form
+    {
+        private double x_pos = 0.0, y_pos = 0.0, z_pos = 5.0;
+        private double manual_x, manual_y, manual_z; 
+        private bool Active = false;
+        private Thread Serial_Thread;
+        private Thread Chart_Thread;
+        private int Setvar = 0, stat, temp;
+        private byte[] buffer;
+        private string dumpbuff;
+        //private double[] xarr,yarr;
+        private System.Text.StringBuilder Datanum = new System.Text.StringBuilder();
+        private const int W_offset = 50;
+        List<byte> buff = new List<byte>();
+        List<byte> cutbuff = new List<byte>();
+        FileStream fS;
+        FileStream fullsW;
+
+        //List<long> data_x = new List<long>();
+        //List<long> data_y = new List<long>();
+        //List<long> data_teta = new List<long>();
+
+        //List<long> data_x_tracking = new List<long>();
+        //List<long> data_y_tracking = new List<long>();
+        //List<long> data_teta_tracking = new List<long>();
+
+        //List<char> buff = new List<char>();
+        //List<char> buff2 = new List<char>();
+
+        //string data_masuk = "";
+        //int kondisi = 0, tanda = 0;
+        //int x_tampil = 0, y_tampil = 0, teta_tampil = 0;
+        //int x_temp = 0, y_temp = 0, teta_temp = 0;
+        //int penanda_data = 0;
+
+
+        public Form1()
+        {
+            InitializeComponent();
+            this.WindowState = FormWindowState.Maximized;
+            Chart_setup();
+            chart1.Series["auto"].Points.AddXY(0,0);
+            chart1.Series["manual"].Points.AddXY(0,0);
+            chart1.Series["auto_dir"].Points.AddXY(400, 0);
+            chart1.Series["manual_dir"].Points.AddXY(400, 0);
+            Pause_btn.Enabled = false;
+            available_ports.Items.AddRange(SerialPort.GetPortNames());
+            Start_btn.Enabled = true;
+            baud_rates.Enabled = true;
+            available_ports.SelectedIndex = 0;
+            baud_rates.SelectedIndex = 3;
+        }
+
+        private void Chart_setup()
+        {
+            chart1.Series["auto"].MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
+            chart1.Series["auto"].MarkerColor = System.Drawing.Color.CadetBlue;
+            chart1.Series["auto"].SetCustomProperty("BubbleMaxSize", "7");
+            chart1.Series["auto"].SetCustomProperty("BubbleMinSize", "7");
+            chart1.Series["manual"].MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
+            chart1.Series["manual"].MarkerColor = System.Drawing.Color.BlueViolet;
+            chart1.Series["manual"].SetCustomProperty("BubbleMaxSize", "7");
+            chart1.Series["manual"].SetCustomProperty("BubbleMinSize", "7");
+            chart1.ChartAreas["auto_chart"].AxisX.Maximum = 13100-550;
+            chart1.ChartAreas["auto_chart"].AxisX.Minimum = -550;
+            chart1.ChartAreas["auto_chart"].AxisX.Interval = 500;
+            chart1.ChartAreas["auto_chart"].AxisY.Maximum = 10100 - 550;
+            chart1.ChartAreas["auto_chart"].AxisY.Minimum =  - 550;
+            chart1.ChartAreas["auto_chart"].AxisY.Interval = 500;
+            chart1.ChartAreas["manual_chart"].AxisX.Maximum = 13600;
+            chart1.ChartAreas["manual_chart"].AxisX.Minimum = -530;
+            chart1.ChartAreas["manual_chart"].AxisY.Maximum = 4770;
+            chart1.ChartAreas["manual_chart"].AxisY.Minimum = -9400;
+        }
+
+        private void richTextBox1_TextChanged(object sender, EventArgs e)
+        {
+            richTextBox1.ScrollToCaret();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            Start_btn.Enabled = false;
+            Pause_btn.Enabled = true;
+            Setvar = 1;
+            Active = true;
+            fS = new FileStream("test.txt",FileMode.OpenOrCreate,FileAccess.Write);
+            fullsW = new FileStream("test2.txt", FileMode.OpenOrCreate, FileAccess.Write);
+            if (!serialPort1.IsOpen)
+            {
+                serialPort1.PortName = available_ports.Text;
+                baud_rates.Enabled = false;
+                available_ports.Enabled = false;
+                serialPort1.BaudRate = Convert.ToInt32(baud_rates.Text);
+                serialPort1.RtsEnable = true;
+            }
+            serialPort1.Close();
+            while (!serialPort1.IsOpen) serialPort1.Open();
+            Serial_Thread = new Thread(new ThreadStart(Serial_Read));
+            Serial_Thread.Start();
+
+        }
+
+        private void Serial_Read()
+        {
+            stat = 0;
+            //xarr = new double[100];
+            //yarr = new double[100];
+            dumpbuff = serialPort1.ReadExisting();
+            //fullsW.Write(dumpbuff, 0, dumpbuff.Length);
+            while (Active)
+            {
+                if(serialPort1.IsOpen)
+                {
+                    stat = get_data3(stat);
+                }
+                Setvar = 0;
+            }
+            //Thread.Sleep(1);
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            Active = false;
+            Pause_btn.Enabled = false;
+            available_ports.Enabled = true;
+            baud_rates.Enabled = true;
+            try
+            {
+                if (Serial_Thread.IsAlive)
+                {
+                    Serial_Thread.Abort();
+                }
+            }
+            catch (Exception exc)
+            {
+                richTextBox1.AppendText(exc.ToString());
+            }
+            fS.Close();
+            Start_btn.Enabled = true;
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            try
+            {
+                if (Setvar == 1 && Serial_Thread.IsAlive)
+                {
+                    Serial_Thread.Abort();
+                }
+            }
+            catch (Exception exc)
+            {
+                richTextBox1.AppendText(exc.ToString());
+            }
+
+            if (serialPort1.IsOpen) serialPort1.Close();
+            //sW.Close();
+        } 
+
+        private void Clear_btn_Click(object sender, EventArgs e)
+        {
+            chart1.Series["history"].Points.Clear();
+            chart1.Series["manual history"].Points.Clear();
+            richTextBox1.ResetText();
+        }
+
+        private void available_ports_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            baud_rates.Enabled = true;
+        }
+
+        private void baud_rates_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            Start_btn.Enabled = true;
+        }
+
+        private void Sel_Auto_CheckedChanged(object sender, EventArgs e)
+        {
+            Group_Manual.Enabled = false;
+            Group_Auto.Enabled = true;
+        }
+
+        private void Sel_Man_CheckedChanged(object sender, EventArgs e)
+        {
+            Group_Auto.Enabled = false;
+            Group_Manual.Enabled = true;
+        }
+
+        private void Sel_both_CheckedChanged(object sender, EventArgs e)
+        {
+            Group_Manual.Enabled = true;
+            Group_Auto.Enabled = true;
+        }
+
+        private void serialPort1_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            //while (Active && serialPort1.BytesToRead > 0)
+            //{
+            //    byteBuf = (byte)serialPort1.ReadChar();
+            //    buff.Add(byteBuf);
+            //    sW.Write((char)byteBuf);
+            //    if (!serialPort1.IsOpen) break;
+            //    //buff.Add((char)serialPort1.ReadChar());
+            //}
+            //Serial_Thread = new Thread(new ThreadStart(receive_data));
+            //Serial_Thread.Start();
+            //////proses_buffer();
+        }
+        
+
+        //private void proses_buffer()
+        //{
+        //    while (buff.Count > 0)
+        //    {
+        //        char temp = buff[0];
+        //        olah_data(temp);
+        //        buff.RemoveAt(0);
+        //    }
+        //}
+
+        //public void olah_data(char data_serial)
+        //{
+        //    if (data_serial == '@') { kondisi = 1; penanda_data = 1; }
+        //    else if (data_serial == '$') { kondisi = 2; penanda_data = 2; }
+        //    else if (data_serial == '*') { kondisi = 3; penanda_data = 3; }
+        //    else if (data_serial == '#') kondisi = 0;
+
+        //    if (kondisi == 1)
+        //    {
+        //        if (data_serial == ',')
+        //        {
+        //            if (tanda == 0) x_temp = Convert.ToInt32(data_masuk);
+        //            if (tanda == 1) y_temp = Convert.ToInt32(data_masuk);
+        //            data_masuk = "";
+        //            tanda++;
+        //        }
+
+        //        if (data_serial != '@' && data_serial != '$' && data_serial != '*' && data_serial != ',')
+        //        {
+        //            data_masuk = data_masuk + Convert.ToString(data_serial);
+        //            //textBox2.AppendText(data_masuk);
+        //        }
+        //    }
+        //    else if (kondisi == 2)
+        //    {
+        //        if (data_serial == ',')
+        //        {
+        //            if (tanda == 0) x_tampil = Convert.ToInt32(data_masuk);
+        //            if (tanda == 1) y_tampil = Convert.ToInt32(data_masuk);
+        //            data_masuk = "";
+        //            //textBox2.Clear();
+        //            tanda++;
+        //        }
+
+        //        if (data_serial != '@' && data_serial != '$' && data_serial != '*' && data_serial != ',')
+        //        {
+        //            data_masuk = data_masuk + Convert.ToString(data_serial);
+        //            //textBox2.AppendText(data_masuk);
+        //        }
+        //    }
+        //    else if (kondisi == 3)
+        //    {
+        //        if (data_serial != '@' && data_serial != '$' && data_serial != '*' && data_serial != ',')
+        //        {
+        //            data_masuk = data_masuk + Convert.ToString(data_serial);
+        //            //textBox2.AppendText(data_masuk);
+        //        }
+        //    }
+        //    else if (kondisi == 0)
+        //    {
+        //        tanda = 0;
+
+        //        if (penanda_data == 1)
+        //        {
+        //            teta_temp = Convert.ToInt32(data_masuk);
+
+        //            data_x.Add(x_temp);
+        //            data_y.Add(y_temp);
+        //            data_teta.Add(teta_temp);
+        //        }
+        //        else if (penanda_data == 2)
+        //        {
+        //            teta_tampil = Convert.ToInt32(data_masuk);
+
+        //            data_x_tracking.Add(x_tampil);
+        //            data_y_tracking.Add(y_tampil);
+        //            data_teta_tracking.Add(teta_tampil);
+        //        }
+
+        //        data_masuk = "";
+        //        //textBox2.Clear();
+        //        //textBox2.Text = "x=" + x_tampil+" y="+y_tampil+" o="+teta_tampil;
+        //        //this.Invoke(new EventHandler(tampil));
+        //        this.Invoke((MethodInvoker)delegate { UpdateChart2(); });
+        //    }
+        //}
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if((Textbox_Auto_X.Text != "") && (Textbox_Auto_Y.Text != "") && (Textbox_Auto_Z.Text != "")
+                && (Textbox_M_X.Text != "") && (Textbox_M_Y.Text != "") && (Textbox_M_Z.Text != ""))
+            {
+                if (!Sel_Man.Checked)
+                {
+                    x_pos = Convert.ToDouble(Textbox_Auto_X.Text);
+                    y_pos = Convert.ToDouble(Textbox_Auto_Y.Text);
+                    z_pos = Convert.ToDouble(Textbox_Auto_Z.Text);
+                }
+                if (!Sel_Auto.Checked)
+                {
+                    manual_x = Convert.ToDouble(Textbox_M_X.Text);
+                    manual_y = Convert.ToDouble(Textbox_M_Y.Text);
+                    manual_z = Convert.ToDouble(Textbox_M_Z.Text);
+                }
+                UpdateChart();
+            }
+            
+        }
+
+        private void replayBtn_Click(object sender, EventArgs e)
+        {
+            StreamReader sR = new StreamReader("test.txt");
+            richTextBox1.AppendText(sR.ReadToEnd());
+            sR.Close();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            available_ports.Items.Clear();
+            available_ports.Items.AddRange(SerialPort.GetPortNames());
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            this.MinimumSize = new Size(chart1.Width + Group_Auto.Width + Group_Settings.Width + 50, chart1.Height);
+        }
+
+        private void Form1_Resize(object sender, EventArgs e)
+        {
+            Group_Auto.Width = get_new_width('g');
+            Group_Manual.Width = get_new_width('g');
+            Group_Log.Width = get_new_width('l');
+            Group_Settings.Width = get_new_width('g');
+            Group_Record.Width = get_new_width('g');
+            Group_Record.Height = Group_Manual.Height;
+            Group_Settings.Location = new Point(chart1.Width + 15, Group_Settings.Location.Y);
+            Group_Log.Location = new Point(chart1.Width + 15, Group_Manual.Location.Y + 15 + Group_Manual.Height);
+            Group_Auto.Location = new Point(chart1.Width + Group_Settings.Width + 30, Group_Auto.Location.Y);
+            Group_Manual.Location = new Point(chart1.Width + Group_Settings.Width + 30, Group_Manual.Location.Y);
+            Group_Record.Location = new Point(chart1.Width + 15, Group_Manual.Location.Y);
+        }
+
+        private int get_new_width(char type)
+        {
+            int width = 0;
+            if (type == 'g') width = (Width - chart1.Width) / 2 - W_offset;
+            else if (type == 'l') width = Width - chart1.Width - W_offset;
+            return width;
+        }
+
+        private void UpdateChart()
+        {
+            if (!Sel_Man.Checked)
+            {
+                chart1.Series["auto"].Points.Clear();
+                chart1.Series["auto_dir"].Points.Clear();
+                chart1.Series["auto"].Points.AddXY(x_pos, y_pos);
+                chart1.Series["auto_dir"].Points.AddXY(x_pos, y_pos);
+                chart1.Series["auto_dir"].Points.AddXY(x_pos + (400 * Math.Cos(z_pos * 0.01745329)), y_pos + (400 * Math.Sin(z_pos * 0.01745329)));
+                Textbox_Auto_X.Text = Convert.ToString(x_pos);
+                Textbox_Auto_Y.Text = Convert.ToString(y_pos);
+                Textbox_Auto_Z.Text = Convert.ToString(z_pos);
+            }
+            if (!Sel_Auto.Checked)
+            {
+                chart1.Series["manual"].Points.Clear();
+                chart1.Series["manual_dir"].Points.Clear();    
+                chart1.Series["manual"].Points.AddXY(manual_x, manual_y);
+                chart1.Series["manual_dir"].Points.AddXY(manual_x, manual_y);
+                chart1.Series["manual_dir"].Points.AddXY(manual_x + 400 * Math.Cos(manual_z * 0.01745329), manual_y + 400 * Math.Sin(manual_z * 0.01745329));
+                Textbox_M_X.Text = Convert.ToString(manual_x);
+                Textbox_M_Y.Text = Convert.ToString(manual_y);
+                Textbox_M_Z.Text = Convert.ToString(manual_z);
+            }
+            if (history_enable.Checked)
+            {
+                chart1.Series["history"].Points.AddXY(x_pos, y_pos);
+                chart1.Series["manual history"].Points.AddXY(manual_x, manual_y);
+            }
+            //richTextBox1.AppendText($"Moved to :({x_pos}, {y_pos})\n");
+        }
+
+        ////private void UpdateChart2()
+        //{
+        //    if (!Sel_Man.Checked)
+        //    {
+        //        chart1.Series["auto"].Points.Clear();
+        //        chart1.Series["auto_dir"].Points.Clear();
+        //        chart1.Series["auto"].Points.AddXY(x_tampil, y_tampil);
+        //        chart1.Series["auto_dir"].Points.AddXY(x_tampil, y_tampil);
+        //        chart1.Series["auto_dir"].Points.AddXY(x_tampil + 400 * Math.Cos(teta_tampil * 0.01745329), y_tampil + 400 * Math.Sin(teta_tampil * 0.01745329));
+        //        Textbox_Auto_X.Text = Convert.ToString(x_tampil);
+        //        Textbox_Auto_Y.Text = Convert.ToString(y_tampil);
+        //        Textbox_Auto_Z.Text = Convert.ToString(teta_tampil);
+        //    }
+        //    if (history_enable.Checked)
+        //    {
+        //        chart1.Series["history"].Points.AddXY(x_tampil, y_tampil);
+        //    }
+        //    //richTextBox1.AppendText($"Moved to :({x_pos}, {y_pos})\n");
+        //}
+
+        //private int get_data2(int stat)
+        //{
+        //    temp = serialPort1.ReadChar();
+        //    this.Invoke((MethodInvoker)delegate { richTextBox1.AppendText("Received:" + temp + "\n"); });
+        //    if (stat == 0 && temp == 'i') stat = 1;
+        //    else if (stat == 1 && temp == 't') stat = 2;
+        //    else if (stat == 2 && temp == 's')
+        //    {
+        //        //Datanum.Clear();
+        //        temp = serialPort1.ReadChar();
+        //        this.Invoke((MethodInvoker)delegate { richTextBox1.AppendText("x:" + temp + " "); });
+        //        //Datanum.Append((char)temp);
+        //        //Double.TryParse(temp, out x_pos);
+        //        x_pos = temp;
+        //        temp = serialPort1.ReadChar();
+        //        this.Invoke((MethodInvoker)delegate { richTextBox1.AppendText("y:" + temp + "\n"); });
+        //        //Datanum.Clear();
+        //        //Datanum.Append((char)temp);
+        //        //Double.TryParse(Datanum.ToString(), out y_pos);
+        //        y_pos = temp;
+        //        this.Invoke((MethodInvoker)delegate { UpdateChart(); });
+        //        stat = 0;
+        //    }
+        //    return stat;
+        //}
+
+        private int get_data3(int stat)
+        {
+            if (Sel_both.Checked) buffer = new byte[24];
+            else buffer = new byte[24];
+            temp = serialPort1.ReadChar();
+            //fullsW.Write(temp);
+            //this.Invoke((MethodInvoker)delegate { richTextBox1.AppendText("Received:" + temp + "\n"); });
+            this.Invoke((MethodInvoker)delegate { });
+
+            if (stat == 0 && temp == 'i') { stat = 1; fS.WriteByte((byte)temp); }
+            else if (stat == 1 && temp == 't') { stat = 2; fS.WriteByte((byte)temp); }
+            else if (stat == 2 && temp == 's')
+            {
+                fS.WriteByte((byte)temp);
+                serialPort1.Read(buffer, 0, buffer.Length);
+                fS.Write(buffer,0,24);
+                //fullsW.Write(Convert.ToString(buffer));
+
+                if (!Sel_Man.Checked)
+                {
+                    x_pos = BitConverter.ToSingle(buffer, 0);
+                    y_pos = BitConverter.ToSingle(buffer, 4);
+                    z_pos = BitConverter.ToSingle(buffer, 8);
+                }
+                if (!Sel_Auto.Checked)
+                {
+                    manual_x = BitConverter.ToSingle(buffer, 12);
+                    manual_y = BitConverter.ToSingle(buffer, 16);
+                    manual_z = BitConverter.ToSingle(buffer, 20);
+                }
+                this.Invoke((MethodInvoker)delegate { UpdateChart(); });
+                dumpbuff = serialPort1.ReadExisting();
+                //fullsW.Write(dumpbuff);
+                stat = 0;
+            }
+            return stat;
+        }
+       
+        //private void receive_data()
+        //{ 
+        //    while (buff.Count > 24)
+        //    {
+        //        get_data4();
+        //    }
+        //}
+
+        //private void get_data4()
+        //{
+        //    if (buff.Count < 1) return;
+        //    byte sdata = buff[0];
+        //    buff.RemoveAt(0);
+        //    if (sdata == 'i' && stat == 0) stat = 1;
+        //    else if (sdata == 't' && stat == 1) stat = 2;
+        //    else if (sdata == 's' && stat == 2)
+        //    {
+        //        stat = 0;
+        //        buffer = new byte[24];
+        //        while (buff.Count < 48) ;
+        //        cutbuff = buff.GetRange(0, 24);
+        //        buff.RemoveRange(0, 24);
+        //        buffer = cutbuff.ToArray();
+        //        if (!Sel_Man.Checked)
+        //        {
+        //            //x_pos = BitConverter.ToInt32(buffer, 0);
+        //            //y_pos = BitConverter.ToInt32(buffer, 2);
+        //            //z_pos = BitConverter.ToInt32(buffer, 4);
+        //            x_pos = BitConverter.ToSingle(buffer, 0);
+        //            y_pos = BitConverter.ToSingle(buffer, 4);
+        //            z_pos = BitConverter.ToSingle(buffer, 8);
+        //        }
+        //        //xarr[xarr.Length - 1] = x_pos;
+        //        if (!Sel_Auto.Checked)
+        //        {
+        //            manual_x = BitConverter.ToSingle(buffer, 12);
+        //            manual_y = BitConverter.ToSingle(buffer, 16);
+        //            manual_z = BitConverter.ToSingle(buffer, 20);
+        //        }
+        //        this.Invoke((MethodInvoker)delegate { UpdateChart(); });
+        //        //Thread.Sleep(10);
+        //    }
+        //    else stat = 0;
+        //}
+    }
+}
