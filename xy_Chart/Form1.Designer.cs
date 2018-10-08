@@ -29,15 +29,15 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series13 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series14 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series15 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series16 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series17 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series18 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.Start_btn = new System.Windows.Forms.Button();
@@ -83,10 +83,13 @@
             this.history_enable = new System.Windows.Forms.CheckBox();
             this.Group_Log = new System.Windows.Forms.GroupBox();
             this.Group_Record = new System.Windows.Forms.GroupBox();
-            this.replayBtn = new System.Windows.Forms.Button();
-            this.fullPlayBtn = new System.Windows.Forms.Button();
-            this.pauseBtn = new System.Windows.Forms.Button();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
+            this.recordList = new System.Windows.Forms.ComboBox();
             this.pathText = new System.Windows.Forms.TextBox();
+            this.pauseBtn = new System.Windows.Forms.Button();
+            this.fullPlayBtn = new System.Windows.Forms.Button();
+            this.replayBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.Group_Auto.SuspendLayout();
             this.Group_Manual.SuspendLayout();
@@ -98,120 +101,120 @@
             // chart1
             // 
             this.chart1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            chartArea5.AlignmentOrientation = ((System.Windows.Forms.DataVisualization.Charting.AreaAlignmentOrientations)((System.Windows.Forms.DataVisualization.Charting.AreaAlignmentOrientations.Vertical | System.Windows.Forms.DataVisualization.Charting.AreaAlignmentOrientations.Horizontal)));
-            chartArea5.AxisX.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.True;
-            chartArea5.AxisX.Interval = 5D;
-            chartArea5.AxisX.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
-            chartArea5.AxisX.MajorGrid.Enabled = false;
-            chartArea5.AxisX.Maximum = 100D;
-            chartArea5.AxisX.Minimum = 0D;
-            chartArea5.AxisX.ScaleBreakStyle.StartFromZero = System.Windows.Forms.DataVisualization.Charting.StartFromZero.Yes;
-            chartArea5.AxisX.ScaleView.MinSize = 10D;
-            chartArea5.AxisY.Interval = 5D;
-            chartArea5.AxisY.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
-            chartArea5.AxisY.MajorGrid.Enabled = false;
-            chartArea5.AxisY.Maximum = 100D;
-            chartArea5.AxisY.Minimum = 0D;
-            chartArea5.AxisY.ScaleBreakStyle.StartFromZero = System.Windows.Forms.DataVisualization.Charting.StartFromZero.Yes;
-            chartArea5.AxisY.ScaleView.MinSize = 10D;
-            chartArea5.BackImage = "C:\\Users\\User\\source\\repos\\Solution1\\xy_Chart\\Resources\\field.jpg";
-            chartArea5.BackImageAlignment = System.Windows.Forms.DataVisualization.Charting.ChartImageAlignmentStyle.Center;
-            chartArea5.BackImageWrapMode = System.Windows.Forms.DataVisualization.Charting.ChartImageWrapMode.Scaled;
-            chartArea5.BorderWidth = 0;
-            chartArea5.InnerPlotPosition.Auto = false;
-            chartArea5.InnerPlotPosition.Height = 90F;
-            chartArea5.InnerPlotPosition.Width = 90F;
-            chartArea5.InnerPlotPosition.X = 5F;
-            chartArea5.InnerPlotPosition.Y = 2F;
-            chartArea5.IsSameFontSizeForAllAxes = true;
-            chartArea5.Name = "auto_chart";
-            chartArea5.Position.Auto = false;
-            chartArea5.Position.Height = 90F;
-            chartArea5.Position.Width = 90F;
-            chartArea5.Position.X = 3F;
-            chartArea5.Position.Y = 3F;
-            chartArea6.AxisX.Interval = 10D;
-            chartArea6.AxisX.LabelStyle.Enabled = false;
-            chartArea6.AxisX.MajorGrid.Enabled = false;
-            chartArea6.AxisX.MajorTickMark.Enabled = false;
-            chartArea6.AxisY.IsLabelAutoFit = false;
-            chartArea6.AxisY.IsMarksNextToAxis = false;
-            chartArea6.AxisY.LabelStyle.Enabled = false;
-            chartArea6.AxisY.MajorGrid.Enabled = false;
-            chartArea6.AxisY.MajorTickMark.Enabled = false;
-            chartArea6.AxisY.Maximum = 124D;
-            chartArea6.AxisY.Minimum = 24D;
-            chartArea6.BackColor = System.Drawing.Color.Transparent;
-            chartArea6.BackImageAlignment = System.Windows.Forms.DataVisualization.Charting.ChartImageAlignmentStyle.Center;
-            chartArea6.BackImageTransparentColor = System.Drawing.Color.Transparent;
-            chartArea6.BorderWidth = 0;
-            chartArea6.InnerPlotPosition.Auto = false;
-            chartArea6.InnerPlotPosition.Height = 90F;
-            chartArea6.InnerPlotPosition.Width = 90F;
-            chartArea6.InnerPlotPosition.X = 5F;
-            chartArea6.InnerPlotPosition.Y = 2F;
-            chartArea6.IsSameFontSizeForAllAxes = true;
-            chartArea6.Name = "manual_chart";
-            chartArea6.Position.Auto = false;
-            chartArea6.Position.Height = 90F;
-            chartArea6.Position.Width = 90F;
-            chartArea6.Position.X = 3F;
-            chartArea6.Position.Y = 3F;
-            this.chart1.ChartAreas.Add(chartArea5);
-            this.chart1.ChartAreas.Add(chartArea6);
+            chartArea1.AlignmentOrientation = ((System.Windows.Forms.DataVisualization.Charting.AreaAlignmentOrientations)((System.Windows.Forms.DataVisualization.Charting.AreaAlignmentOrientations.Vertical | System.Windows.Forms.DataVisualization.Charting.AreaAlignmentOrientations.Horizontal)));
+            chartArea1.AxisX.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.True;
+            chartArea1.AxisX.Interval = 5D;
+            chartArea1.AxisX.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
+            chartArea1.AxisX.MajorGrid.Enabled = false;
+            chartArea1.AxisX.Maximum = 100D;
+            chartArea1.AxisX.Minimum = 0D;
+            chartArea1.AxisX.ScaleBreakStyle.StartFromZero = System.Windows.Forms.DataVisualization.Charting.StartFromZero.Yes;
+            chartArea1.AxisX.ScaleView.MinSize = 10D;
+            chartArea1.AxisY.Interval = 5D;
+            chartArea1.AxisY.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
+            chartArea1.AxisY.MajorGrid.Enabled = false;
+            chartArea1.AxisY.Maximum = 100D;
+            chartArea1.AxisY.Minimum = 0D;
+            chartArea1.AxisY.ScaleBreakStyle.StartFromZero = System.Windows.Forms.DataVisualization.Charting.StartFromZero.Yes;
+            chartArea1.AxisY.ScaleView.MinSize = 10D;
+            chartArea1.BackImage = "C:\\Users\\User\\source\\repos\\Solution1\\xy_Chart\\Resources\\field.jpg";
+            chartArea1.BackImageAlignment = System.Windows.Forms.DataVisualization.Charting.ChartImageAlignmentStyle.Center;
+            chartArea1.BackImageWrapMode = System.Windows.Forms.DataVisualization.Charting.ChartImageWrapMode.Scaled;
+            chartArea1.BorderWidth = 0;
+            chartArea1.InnerPlotPosition.Auto = false;
+            chartArea1.InnerPlotPosition.Height = 90F;
+            chartArea1.InnerPlotPosition.Width = 90F;
+            chartArea1.InnerPlotPosition.X = 5F;
+            chartArea1.InnerPlotPosition.Y = 2F;
+            chartArea1.IsSameFontSizeForAllAxes = true;
+            chartArea1.Name = "auto_chart";
+            chartArea1.Position.Auto = false;
+            chartArea1.Position.Height = 90F;
+            chartArea1.Position.Width = 90F;
+            chartArea1.Position.X = 3F;
+            chartArea1.Position.Y = 3F;
+            chartArea2.AxisX.Interval = 10D;
+            chartArea2.AxisX.LabelStyle.Enabled = false;
+            chartArea2.AxisX.MajorGrid.Enabled = false;
+            chartArea2.AxisX.MajorTickMark.Enabled = false;
+            chartArea2.AxisY.IsLabelAutoFit = false;
+            chartArea2.AxisY.IsMarksNextToAxis = false;
+            chartArea2.AxisY.LabelStyle.Enabled = false;
+            chartArea2.AxisY.MajorGrid.Enabled = false;
+            chartArea2.AxisY.MajorTickMark.Enabled = false;
+            chartArea2.AxisY.Maximum = 124D;
+            chartArea2.AxisY.Minimum = 24D;
+            chartArea2.BackColor = System.Drawing.Color.Transparent;
+            chartArea2.BackImageAlignment = System.Windows.Forms.DataVisualization.Charting.ChartImageAlignmentStyle.Center;
+            chartArea2.BackImageTransparentColor = System.Drawing.Color.Transparent;
+            chartArea2.BorderWidth = 0;
+            chartArea2.InnerPlotPosition.Auto = false;
+            chartArea2.InnerPlotPosition.Height = 90F;
+            chartArea2.InnerPlotPosition.Width = 90F;
+            chartArea2.InnerPlotPosition.X = 5F;
+            chartArea2.InnerPlotPosition.Y = 2F;
+            chartArea2.IsSameFontSizeForAllAxes = true;
+            chartArea2.Name = "manual_chart";
+            chartArea2.Position.Auto = false;
+            chartArea2.Position.Height = 90F;
+            chartArea2.Position.Width = 90F;
+            chartArea2.Position.X = 3F;
+            chartArea2.Position.Y = 3F;
+            this.chart1.ChartAreas.Add(chartArea1);
+            this.chart1.ChartAreas.Add(chartArea2);
             this.chart1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            legend3.Enabled = false;
-            legend3.Name = "Legend1";
-            this.chart1.Legends.Add(legend3);
+            legend1.Enabled = false;
+            legend1.Name = "Legend1";
+            this.chart1.Legends.Add(legend1);
             this.chart1.Location = new System.Drawing.Point(0, 0);
             this.chart1.Margin = new System.Windows.Forms.Padding(0);
             this.chart1.Name = "chart1";
-            series13.ChartArea = "auto_chart";
-            series13.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Bubble;
-            series13.CustomProperties = "BubbleMinSize=8, BubbleMaxSize=8";
-            series13.Legend = "Legend1";
-            series13.MarkerSize = 3;
-            series13.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Triangle;
-            series13.Name = "auto";
-            series13.YValuesPerPoint = 2;
-            series14.ChartArea = "manual_chart";
-            series14.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Bubble;
-            series14.CustomProperties = "BubbleMinSize=8, BubbleMaxSize=8";
-            series14.Legend = "Legend1";
-            series14.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Square;
-            series14.Name = "manual";
-            series14.YValuesPerPoint = 6;
-            series15.ChartArea = "auto_chart";
-            series15.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series15.Legend = "Legend1";
-            series15.Name = "history";
-            series16.ChartArea = "manual_chart";
-            series16.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series16.Legend = "Legend1";
-            series16.Name = "manual history";
-            series17.BorderWidth = 9;
-            series17.ChartArea = "auto_chart";
-            series17.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series17.Legend = "Legend1";
-            series17.MarkerSize = 9;
-            series17.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
-            series17.Name = "auto_dir";
-            series17.YValuesPerPoint = 2;
-            series18.BorderWidth = 9;
-            series18.ChartArea = "manual_chart";
-            series18.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series18.LabelBorderWidth = 9;
-            series18.Legend = "Legend1";
-            series18.MarkerSize = 9;
-            series18.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
-            series18.Name = "manual_dir";
-            series18.YValuesPerPoint = 2;
-            this.chart1.Series.Add(series13);
-            this.chart1.Series.Add(series14);
-            this.chart1.Series.Add(series15);
-            this.chart1.Series.Add(series16);
-            this.chart1.Series.Add(series17);
-            this.chart1.Series.Add(series18);
+            series1.ChartArea = "auto_chart";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Bubble;
+            series1.CustomProperties = "BubbleMinSize=8, BubbleMaxSize=8";
+            series1.Legend = "Legend1";
+            series1.MarkerSize = 3;
+            series1.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Triangle;
+            series1.Name = "auto";
+            series1.YValuesPerPoint = 2;
+            series2.ChartArea = "manual_chart";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Bubble;
+            series2.CustomProperties = "BubbleMinSize=8, BubbleMaxSize=8";
+            series2.Legend = "Legend1";
+            series2.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Square;
+            series2.Name = "manual";
+            series2.YValuesPerPoint = 6;
+            series3.ChartArea = "auto_chart";
+            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series3.Legend = "Legend1";
+            series3.Name = "history";
+            series4.ChartArea = "manual_chart";
+            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series4.Legend = "Legend1";
+            series4.Name = "manual history";
+            series5.BorderWidth = 9;
+            series5.ChartArea = "auto_chart";
+            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series5.Legend = "Legend1";
+            series5.MarkerSize = 9;
+            series5.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
+            series5.Name = "auto_dir";
+            series5.YValuesPerPoint = 2;
+            series6.BorderWidth = 9;
+            series6.ChartArea = "manual_chart";
+            series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series6.LabelBorderWidth = 9;
+            series6.Legend = "Legend1";
+            series6.MarkerSize = 9;
+            series6.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
+            series6.Name = "manual_dir";
+            series6.YValuesPerPoint = 2;
+            this.chart1.Series.Add(series1);
+            this.chart1.Series.Add(series2);
+            this.chart1.Series.Add(series3);
+            this.chart1.Series.Add(series4);
+            this.chart1.Series.Add(series5);
+            this.chart1.Series.Add(series6);
             this.chart1.Size = new System.Drawing.Size(900, 700);
             this.chart1.TabIndex = 0;
             this.chart1.Text = "chart1";
@@ -645,6 +648,9 @@
             // 
             // Group_Record
             // 
+            this.Group_Record.Controls.Add(this.progressBar1);
+            this.Group_Record.Controls.Add(this.hScrollBar1);
+            this.Group_Record.Controls.Add(this.recordList);
             this.Group_Record.Controls.Add(this.pathText);
             this.Group_Record.Controls.Add(this.pauseBtn);
             this.Group_Record.Controls.Add(this.fullPlayBtn);
@@ -656,33 +662,28 @@
             this.Group_Record.TabStop = false;
             this.Group_Record.Text = "Record ";
             // 
-            // replayBtn
+            // progressBar1
             // 
-            this.replayBtn.Location = new System.Drawing.Point(17, 64);
-            this.replayBtn.Name = "replayBtn";
-            this.replayBtn.Size = new System.Drawing.Size(75, 23);
-            this.replayBtn.TabIndex = 0;
-            this.replayBtn.Text = "Replay";
-            this.replayBtn.UseVisualStyleBackColor = true;
-            this.replayBtn.Click += new System.EventHandler(this.replayBtn_Click);
+            this.progressBar1.Location = new System.Drawing.Point(35, 166);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(138, 23);
+            this.progressBar1.TabIndex = 6;
             // 
-            // fullPlayBtn
+            // hScrollBar1
             // 
-            this.fullPlayBtn.Location = new System.Drawing.Point(17, 93);
-            this.fullPlayBtn.Name = "fullPlayBtn";
-            this.fullPlayBtn.Size = new System.Drawing.Size(75, 23);
-            this.fullPlayBtn.TabIndex = 1;
-            this.fullPlayBtn.Text = "fullPlayBtn";
-            this.fullPlayBtn.UseVisualStyleBackColor = true;
+            this.hScrollBar1.Location = new System.Drawing.Point(37, 135);
+            this.hScrollBar1.Name = "hScrollBar1";
+            this.hScrollBar1.Size = new System.Drawing.Size(136, 19);
+            this.hScrollBar1.TabIndex = 5;
             // 
-            // pauseBtn
+            // recordList
             // 
-            this.pauseBtn.Location = new System.Drawing.Point(98, 79);
-            this.pauseBtn.Name = "pauseBtn";
-            this.pauseBtn.Size = new System.Drawing.Size(75, 23);
-            this.pauseBtn.TabIndex = 2;
-            this.pauseBtn.Text = "pause";
-            this.pauseBtn.UseVisualStyleBackColor = true;
+            this.recordList.FormattingEnabled = true;
+            this.recordList.Location = new System.Drawing.Point(25, 44);
+            this.recordList.Name = "recordList";
+            this.recordList.Size = new System.Drawing.Size(130, 21);
+            this.recordList.TabIndex = 4;
+            this.recordList.SelectionChangeCommitted += new System.EventHandler(this.recordList_SelectionChangeCommitted);
             // 
             // pathText
             // 
@@ -690,6 +691,35 @@
             this.pathText.Name = "pathText";
             this.pathText.Size = new System.Drawing.Size(130, 20);
             this.pathText.TabIndex = 3;
+            this.pathText.Text = "record";
+            // 
+            // pauseBtn
+            // 
+            this.pauseBtn.Location = new System.Drawing.Point(98, 85);
+            this.pauseBtn.Name = "pauseBtn";
+            this.pauseBtn.Size = new System.Drawing.Size(75, 23);
+            this.pauseBtn.TabIndex = 2;
+            this.pauseBtn.Text = "pause";
+            this.pauseBtn.UseVisualStyleBackColor = true;
+            this.pauseBtn.Click += new System.EventHandler(this.pauseBtn_Click);
+            // 
+            // fullPlayBtn
+            // 
+            this.fullPlayBtn.Location = new System.Drawing.Point(17, 100);
+            this.fullPlayBtn.Name = "fullPlayBtn";
+            this.fullPlayBtn.Size = new System.Drawing.Size(75, 23);
+            this.fullPlayBtn.TabIndex = 1;
+            this.fullPlayBtn.UseVisualStyleBackColor = true;
+            // 
+            // replayBtn
+            // 
+            this.replayBtn.Location = new System.Drawing.Point(17, 71);
+            this.replayBtn.Name = "replayBtn";
+            this.replayBtn.Size = new System.Drawing.Size(75, 23);
+            this.replayBtn.TabIndex = 0;
+            this.replayBtn.Text = "Replay";
+            this.replayBtn.UseVisualStyleBackColor = true;
+            this.replayBtn.Click += new System.EventHandler(this.replayBtn_Click);
             // 
             // Form1
             // 
@@ -772,6 +802,9 @@
         private System.Windows.Forms.Button pauseBtn;
         private System.Windows.Forms.Button fullPlayBtn;
         private System.Windows.Forms.Button replayBtn;
+        private System.Windows.Forms.ComboBox recordList;
+        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.HScrollBar hScrollBar1;
     }
 }
 

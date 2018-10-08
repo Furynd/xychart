@@ -5,6 +5,7 @@ using System.IO.Ports;
 using System.Drawing;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 
 namespace xy_Chart
 {
@@ -13,18 +14,27 @@ namespace xy_Chart
         private double x_pos = 0.0, y_pos = 0.0, z_pos = 5.0;
         private double manual_x, manual_y, manual_z; 
         private bool Active = false;
+        private bool replay = false;
         private Thread Serial_Thread;
         private Thread Chart_Thread;
+        private Thread data_Thread;
         private int Setvar = 0, stat, temp;
+        private int delay= 20;
+        //static int numbering = 1;
         private byte[] buffer;
+        private byte[] tembuf;
         private string dumpbuff;
-        //private double[] xarr,yarr;
-        private System.Text.StringBuilder Datanum = new System.Text.StringBuilder();
+        private string fileName;
+        private string[] fileList;
+        //private System.Text.StringBuilder Datanum = new System.Text.StringBuilder();
         private const int W_offset = 50;
-        List<byte> buff = new List<byte>();
-        List<byte> cutbuff = new List<byte>();
-        FileStream fS;
-        FileStream fullsW;
+        private List<byte> buffList = new List<byte>();
+        private List<float> xList = new List<float>();
+        private List<float> yList = new List<float>();
+        private List<float> zList = new List<float>();
+        //private List<byte> cutbuff = new List<byte>();
+        private FileStream fS;
+        private FileStream fullfS;
 
         //List<long> data_x = new List<long>();
         //List<long> data_y = new List<long>();
@@ -57,8 +67,11 @@ namespace xy_Chart
             available_ports.Items.AddRange(SerialPort.GetPortNames());
             Start_btn.Enabled = true;
             baud_rates.Enabled = true;
-            available_ports.SelectedIndex = 0;
+            //available_ports.SelectedIndex = 0;
             baud_rates.SelectedIndex = 3;
+            fileList = Directory.GetFiles("records");
+            foreach (string filePath in fileList) recordList.Items.Add(Path.GetFileName(filePath));
+            replayBtn.Enabled = false;
         }
 
         private void Chart_setup()
@@ -94,8 +107,9 @@ namespace xy_Chart
             Pause_btn.Enabled = true;
             Setvar = 1;
             Active = true;
-            fS = new FileStream("test.txt",FileMode.OpenOrCreate,FileAccess.Write);
-            fullsW = new FileStream("test2.txt", FileMode.OpenOrCreate, FileAccess.Write);
+            fileName = "records/" + pathText.Text;
+            fS = new FileStream(fileName, FileMode.OpenOrCreate,FileAccess.Write);
+            fullfS = new FileStream(fileName + ".full", FileMode.OpenOrCreate, FileAccess.Write);
             if (!serialPort1.IsOpen)
             {
                 serialPort1.PortName = available_ports.Text;
@@ -108,7 +122,10 @@ namespace xy_Chart
             while (!serialPort1.IsOpen) serialPort1.Open();
             Serial_Thread = new Thread(new ThreadStart(Serial_Read));
             Serial_Thread.Start();
-
+            data_Thread = new Thread(new ThreadStart(convert_data));
+            data_Thread.Start();
+            Chart_Thread = new Thread(new ThreadStart(show_data));
+            Chart_Thread.Start();
         }
 
         private void Serial_Read()
@@ -117,7 +134,7 @@ namespace xy_Chart
             //xarr = new double[100];
             //yarr = new double[100];
             dumpbuff = serialPort1.ReadExisting();
-            //fullsW.Write(dumpbuff, 0, dumpbuff.Length);
+            //fullfS.Write(dumpbuff, 0, dumpbuff.Length);
             while (Active)
             {
                 if(serialPort1.IsOpen)
@@ -146,8 +163,14 @@ namespace xy_Chart
             {
                 richTextBox1.AppendText(exc.ToString());
             }
+            fS.Write(buffList.ToArray(), 0, buffList.Count);
+            fullfS.Write(buffList.ToArray(), 0, buffList.Count);
             fS.Close();
+            fullfS.Close();
             Start_btn.Enabled = true;
+            recordList.Items.Clear();
+            fileList = Directory.GetFiles("records");
+            foreach (string filePath in fileList) recordList.Items.Add(Path.GetFileName(filePath));
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -164,6 +187,8 @@ namespace xy_Chart
                 richTextBox1.AppendText(exc.ToString());
             }
 
+            if (data_Thread.IsAlive) data_Thread.Abort();
+            if (Chart_Thread.IsAlive) Chart_Thread.Abort();
             if (serialPort1.IsOpen) serialPort1.Close();
             //sW.Close();
         } 
@@ -330,9 +355,22 @@ namespace xy_Chart
 
         private void replayBtn_Click(object sender, EventArgs e)
         {
-            StreamReader sR = new StreamReader("test.txt");
-            richTextBox1.AppendText(sR.ReadToEnd());
-            sR.Close();
+            fS = new FileStream("records/" + recordList.Text, FileMode.Open, FileAccess.Read);
+            buffList = new List<byte>();
+            //buffList.AddRange(fS.re)
+            buffer = new byte[fS.Length];
+            fS.Read(buffer, 0, (int)fS.Length);
+            buffList.AddRange(buffer);
+            fS.Close();
+            richTextBox1.AppendText(recordList.Text +" size: "+buffList.Count.ToString()+"bytes\n");
+            if (recordList.Text.Contains(".full")) delay = 8;
+            else delay = 20;
+            Active = true;
+            replay = true;
+            data_Thread = new Thread(new ThreadStart(convert_data));
+            data_Thread.Start();
+            Chart_Thread = new Thread(new ThreadStart(show_data));
+            Chart_Thread.Start();
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -344,6 +382,11 @@ namespace xy_Chart
         private void Form1_Load(object sender, EventArgs e)
         {
             this.MinimumSize = new Size(chart1.Width + Group_Auto.Width + Group_Settings.Width + 50, chart1.Height);
+        }
+
+        private void recordList_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            replayBtn.Enabled = true;
         }
 
         private void Form1_Resize(object sender, EventArgs e)
@@ -361,6 +404,11 @@ namespace xy_Chart
             Group_Record.Location = new Point(chart1.Width + 15, Group_Manual.Location.Y);
         }
 
+        private void pauseBtn_Click(object sender, EventArgs e)
+        {
+            Turnoff();
+        }
+
         private int get_new_width(char type)
         {
             int width = 0;
@@ -373,14 +421,14 @@ namespace xy_Chart
         {
             if (!Sel_Man.Checked)
             {
+                Textbox_Auto_X.Text = Convert.ToString(x_pos);
+                Textbox_Auto_Y.Text = Convert.ToString(y_pos);
+                Textbox_Auto_Z.Text = Convert.ToString(z_pos);
                 chart1.Series["auto"].Points.Clear();
                 chart1.Series["auto_dir"].Points.Clear();
                 chart1.Series["auto"].Points.AddXY(x_pos, y_pos);
                 chart1.Series["auto_dir"].Points.AddXY(x_pos, y_pos);
                 chart1.Series["auto_dir"].Points.AddXY(x_pos + (400 * Math.Cos(z_pos * 0.01745329)), y_pos + (400 * Math.Sin(z_pos * 0.01745329)));
-                Textbox_Auto_X.Text = Convert.ToString(x_pos);
-                Textbox_Auto_Y.Text = Convert.ToString(y_pos);
-                Textbox_Auto_Z.Text = Convert.ToString(z_pos);
             }
             if (!Sel_Auto.Checked)
             {
@@ -452,8 +500,7 @@ namespace xy_Chart
             if (Sel_both.Checked) buffer = new byte[24];
             else buffer = new byte[24];
             temp = serialPort1.ReadChar();
-            //fullsW.Write(temp);
-            //this.Invoke((MethodInvoker)delegate { richTextBox1.AppendText("Received:" + temp + "\n"); });
+            fullfS.WriteByte((byte)temp);
             this.Invoke((MethodInvoker)delegate { });
 
             if (stat == 0 && temp == 'i') { stat = 1; fS.WriteByte((byte)temp); }
@@ -462,29 +509,99 @@ namespace xy_Chart
             {
                 fS.WriteByte((byte)temp);
                 serialPort1.Read(buffer, 0, buffer.Length);
-                fS.Write(buffer,0,24);
-                //fullsW.Write(Convert.ToString(buffer));
-
-                if (!Sel_Man.Checked)
-                {
-                    x_pos = BitConverter.ToSingle(buffer, 0);
-                    y_pos = BitConverter.ToSingle(buffer, 4);
-                    z_pos = BitConverter.ToSingle(buffer, 8);
-                }
-                if (!Sel_Auto.Checked)
-                {
-                    manual_x = BitConverter.ToSingle(buffer, 12);
-                    manual_y = BitConverter.ToSingle(buffer, 16);
-                    manual_z = BitConverter.ToSingle(buffer, 20);
-                }
-                this.Invoke((MethodInvoker)delegate { UpdateChart(); });
-                dumpbuff = serialPort1.ReadExisting();
-                //fullsW.Write(dumpbuff);
+                fS.Write(buffer, 0, 24);
+                fullfS.Write(buffer, 0, 24);
+                buffList.AddRange(buffer);
+                #region singlethread mode
+                //if (!Sel_Man.Checked)
+                //{
+                //    x_pos = BitConverter.ToSingle(buffer, 0);
+                //    y_pos = BitConverter.ToSingle(buffer, 4);
+                //    z_pos = BitConverter.ToSingle(buffer, 8);
+                //}
+                //if (!Sel_Auto.Checked)
+                //{
+                //    manual_x = BitConverter.ToSingle(buffer, 12);
+                //    manual_y = BitConverter.ToSingle(buffer, 16);
+                //    manual_z = BitConverter.ToSingle(buffer, 20);
+                //}
+                //this.Invoke((MethodInvoker)delegate { UpdateChart(); });
+                #endregion
+                //dumpbuff = serialPort1.ReadExisting();
+                //fullfS.Write(Encoding.BigEndianUnicode.GetBytes(dumpbuff), 0, dumpbuff.Length);
                 stat = 0;
             }
+            else stat = 0;
             return stat;
         }
-       
+        
+        private void convert_data()
+        {
+            tembuf = new byte[24];
+            stat = 0;
+            while (Active)
+            {
+                if (replay)
+                {
+                    temp = buffList[0];
+                    buffList.RemoveAt(0);
+                    if (stat == 0 && temp == 'i') { stat = 1; }
+                    else if (stat == 1 && temp == 't') { stat = 2; }
+                    else if (stat == 2 && temp == 's' && buffList.Count > 24)
+                    {
+                        tembuf = buffList.GetRange(0, 24).ToArray();
+                        buffList.RemoveRange(0, 24);
+                        xList.Add(BitConverter.ToSingle(tembuf, 0));
+                        yList.Add(BitConverter.ToSingle(tembuf, 4));
+                        zList.Add(BitConverter.ToSingle(tembuf, 8));
+                        stat = 0;
+                    }
+                    else stat = 0;
+                    Thread.Sleep(delay);
+                }
+                else if( buffList.Count > 24)
+                {
+                    tembuf = buffList.GetRange(0, 24).ToArray();
+                    buffList.RemoveRange(0, 24);
+                    xList.Add(BitConverter.ToSingle(tembuf, 0));
+                    yList.Add(BitConverter.ToSingle(tembuf, 4));
+                    zList.Add(BitConverter.ToSingle(tembuf, 8));
+                }
+                if (buffList.Count < 24 && replay) break;
+            }
+        }
+
+        private void show_data()
+        {
+            while (Active)
+            {
+                if (!Sel_Man.Checked && xList.Count>5 && yList.Count>5 && zList.Count>5)
+                {
+                    x_pos = xList[0];
+                    y_pos = yList[0];
+                    z_pos = zList[0];
+                    try
+                    {
+                        xList.RemoveAt(0);
+                        yList.RemoveAt(0);
+                        zList.RemoveAt(0);
+                    }
+                    catch(Exception exc) { MessageBox.Show("er01:"+exc.ToString()); }
+                    this.Invoke((MethodInvoker)delegate { UpdateChart(); });
+                }
+                if (replay && (xList.Count < 0 || yList.Count < 0 || zList.Count < 0)) Turnoff();
+            }
+        }
+
+        public void Turnoff()
+        {
+            Active = false;
+            replay = false;
+            //if (Serial_Thread.IsAlive) Serial_Thread.Abort();
+            if (data_Thread.IsAlive) data_Thread.Abort();
+            if (Chart_Thread.IsAlive) Chart_Thread.Abort();
+        }
+
         //private void receive_data()
         //{ 
         //    while (buff.Count > 24)
