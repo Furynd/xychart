@@ -52,12 +52,6 @@
             this.label4 = new System.Windows.Forms.Label();
             this.available_ports = new System.Windows.Forms.ComboBox();
             this.baud_rates = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.Textbox_Auto_W = new System.Windows.Forms.TextBox();
-            this.Textbox_Auto_Vy = new System.Windows.Forms.TextBox();
-            this.Textbox_Auto_Vx = new System.Windows.Forms.TextBox();
             this.Group_Auto = new System.Windows.Forms.GroupBox();
             this.Go_Btn = new System.Windows.Forms.Button();
             this.Group_Manual = new System.Windows.Forms.GroupBox();
@@ -67,12 +61,6 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
-            this.Textbox_M_W = new System.Windows.Forms.TextBox();
-            this.Textbox_M_Vx = new System.Windows.Forms.TextBox();
-            this.Textbox_M_Vy = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
             this.Group_Settings = new System.Windows.Forms.GroupBox();
             this.Sel_both = new System.Windows.Forms.RadioButton();
             this.Sel_Man = new System.Windows.Forms.RadioButton();
@@ -90,6 +78,16 @@
             this.pauseBtn = new System.Windows.Forms.Button();
             this.fullPlayBtn = new System.Windows.Forms.Button();
             this.replayBtn = new System.Windows.Forms.Button();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.checkBox4 = new System.Windows.Forms.CheckBox();
+            this.checkBox5 = new System.Windows.Forms.CheckBox();
+            this.checkBox6 = new System.Windows.Forms.CheckBox();
+            this.checkBox7 = new System.Windows.Forms.CheckBox();
+            this.checkBox8 = new System.Windows.Forms.CheckBox();
+            this.analogSensor = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.Group_Auto.SuspendLayout();
             this.Group_Manual.SuspendLayout();
@@ -336,71 +334,24 @@
             this.baud_rates.TabIndex = 18;
             this.baud_rates.SelectionChangeCommitted += new System.EventHandler(this.baud_rates_SelectionChangeCommitted);
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(18, 185);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(15, 13);
-            this.label1.TabIndex = 24;
-            this.label1.Text = "ω";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(18, 159);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(19, 13);
-            this.label5.TabIndex = 23;
-            this.label5.Text = "Vy";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(18, 133);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(19, 13);
-            this.label6.TabIndex = 22;
-            this.label6.Text = "Vx";
-            // 
-            // Textbox_Auto_W
-            // 
-            this.Textbox_Auto_W.Enabled = false;
-            this.Textbox_Auto_W.Location = new System.Drawing.Point(38, 182);
-            this.Textbox_Auto_W.Name = "Textbox_Auto_W";
-            this.Textbox_Auto_W.Size = new System.Drawing.Size(100, 20);
-            this.Textbox_Auto_W.TabIndex = 21;
-            // 
-            // Textbox_Auto_Vy
-            // 
-            this.Textbox_Auto_Vy.Enabled = false;
-            this.Textbox_Auto_Vy.Location = new System.Drawing.Point(38, 156);
-            this.Textbox_Auto_Vy.Name = "Textbox_Auto_Vy";
-            this.Textbox_Auto_Vy.Size = new System.Drawing.Size(100, 20);
-            this.Textbox_Auto_Vy.TabIndex = 20;
-            // 
-            // Textbox_Auto_Vx
-            // 
-            this.Textbox_Auto_Vx.Enabled = false;
-            this.Textbox_Auto_Vx.Location = new System.Drawing.Point(38, 130);
-            this.Textbox_Auto_Vx.Name = "Textbox_Auto_Vx";
-            this.Textbox_Auto_Vx.Size = new System.Drawing.Size(100, 20);
-            this.Textbox_Auto_Vx.TabIndex = 19;
-            // 
             // Group_Auto
             // 
+            this.Group_Auto.Controls.Add(this.label1);
+            this.Group_Auto.Controls.Add(this.analogSensor);
+            this.Group_Auto.Controls.Add(this.checkBox8);
+            this.Group_Auto.Controls.Add(this.checkBox7);
+            this.Group_Auto.Controls.Add(this.checkBox6);
+            this.Group_Auto.Controls.Add(this.checkBox5);
+            this.Group_Auto.Controls.Add(this.checkBox4);
+            this.Group_Auto.Controls.Add(this.checkBox3);
+            this.Group_Auto.Controls.Add(this.checkBox2);
+            this.Group_Auto.Controls.Add(this.checkBox1);
             this.Group_Auto.Controls.Add(this.Textbox_Auto_Z);
             this.Group_Auto.Controls.Add(this.Textbox_Auto_X);
             this.Group_Auto.Controls.Add(this.Textbox_Auto_Y);
             this.Group_Auto.Controls.Add(this.label2);
             this.Group_Auto.Controls.Add(this.label3);
             this.Group_Auto.Controls.Add(this.label4);
-            this.Group_Auto.Controls.Add(this.Textbox_Auto_W);
-            this.Group_Auto.Controls.Add(this.Textbox_Auto_Vx);
-            this.Group_Auto.Controls.Add(this.Textbox_Auto_Vy);
-            this.Group_Auto.Controls.Add(this.label6);
-            this.Group_Auto.Controls.Add(this.label5);
-            this.Group_Auto.Controls.Add(this.label1);
             this.Group_Auto.Location = new System.Drawing.Point(904, 41);
             this.Group_Auto.MinimumSize = new System.Drawing.Size(175, 225);
             this.Group_Auto.Name = "Group_Auto";
@@ -427,12 +378,6 @@
             this.Group_Manual.Controls.Add(this.label7);
             this.Group_Manual.Controls.Add(this.label8);
             this.Group_Manual.Controls.Add(this.label9);
-            this.Group_Manual.Controls.Add(this.Textbox_M_W);
-            this.Group_Manual.Controls.Add(this.Textbox_M_Vx);
-            this.Group_Manual.Controls.Add(this.Textbox_M_Vy);
-            this.Group_Manual.Controls.Add(this.label10);
-            this.Group_Manual.Controls.Add(this.label11);
-            this.Group_Manual.Controls.Add(this.label12);
             this.Group_Manual.Location = new System.Drawing.Point(904, 293);
             this.Group_Manual.MinimumSize = new System.Drawing.Size(175, 225);
             this.Group_Manual.Name = "Group_Manual";
@@ -488,57 +433,6 @@
             this.label9.Size = new System.Drawing.Size(13, 13);
             this.label9.TabIndex = 16;
             this.label9.Text = "θ";
-            // 
-            // Textbox_M_W
-            // 
-            this.Textbox_M_W.Enabled = false;
-            this.Textbox_M_W.Location = new System.Drawing.Point(38, 182);
-            this.Textbox_M_W.Name = "Textbox_M_W";
-            this.Textbox_M_W.Size = new System.Drawing.Size(100, 20);
-            this.Textbox_M_W.TabIndex = 21;
-            // 
-            // Textbox_M_Vx
-            // 
-            this.Textbox_M_Vx.Enabled = false;
-            this.Textbox_M_Vx.Location = new System.Drawing.Point(38, 130);
-            this.Textbox_M_Vx.Name = "Textbox_M_Vx";
-            this.Textbox_M_Vx.Size = new System.Drawing.Size(100, 20);
-            this.Textbox_M_Vx.TabIndex = 19;
-            // 
-            // Textbox_M_Vy
-            // 
-            this.Textbox_M_Vy.Enabled = false;
-            this.Textbox_M_Vy.Location = new System.Drawing.Point(38, 156);
-            this.Textbox_M_Vy.Name = "Textbox_M_Vy";
-            this.Textbox_M_Vy.Size = new System.Drawing.Size(100, 20);
-            this.Textbox_M_Vy.TabIndex = 20;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(18, 133);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(19, 13);
-            this.label10.TabIndex = 22;
-            this.label10.Text = "Vx";
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(18, 159);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(19, 13);
-            this.label11.TabIndex = 23;
-            this.label11.Text = "Vy";
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(18, 185);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(15, 13);
-            this.label12.TabIndex = 24;
-            this.label12.Text = "ω";
             // 
             // Group_Settings
             // 
@@ -721,6 +615,102 @@
             this.replayBtn.UseVisualStyleBackColor = true;
             this.replayBtn.Click += new System.EventHandler(this.replayBtn_Click);
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(26, 104);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(32, 17);
+            this.checkBox1.TabIndex = 17;
+            this.checkBox1.Text = "1";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Location = new System.Drawing.Point(99, 105);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(32, 17);
+            this.checkBox2.TabIndex = 18;
+            this.checkBox2.Text = "2";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            // 
+            // checkBox3
+            // 
+            this.checkBox3.AutoSize = true;
+            this.checkBox3.Location = new System.Drawing.Point(26, 120);
+            this.checkBox3.Name = "checkBox3";
+            this.checkBox3.Size = new System.Drawing.Size(32, 17);
+            this.checkBox3.TabIndex = 19;
+            this.checkBox3.Text = "3";
+            this.checkBox3.UseVisualStyleBackColor = true;
+            // 
+            // checkBox4
+            // 
+            this.checkBox4.AutoSize = true;
+            this.checkBox4.Location = new System.Drawing.Point(99, 120);
+            this.checkBox4.Name = "checkBox4";
+            this.checkBox4.Size = new System.Drawing.Size(32, 17);
+            this.checkBox4.TabIndex = 20;
+            this.checkBox4.Text = "4";
+            this.checkBox4.UseVisualStyleBackColor = true;
+            // 
+            // checkBox5
+            // 
+            this.checkBox5.AutoSize = true;
+            this.checkBox5.Location = new System.Drawing.Point(26, 136);
+            this.checkBox5.Name = "checkBox5";
+            this.checkBox5.Size = new System.Drawing.Size(32, 17);
+            this.checkBox5.TabIndex = 21;
+            this.checkBox5.Text = "5";
+            this.checkBox5.UseVisualStyleBackColor = true;
+            // 
+            // checkBox6
+            // 
+            this.checkBox6.AutoSize = true;
+            this.checkBox6.Location = new System.Drawing.Point(99, 136);
+            this.checkBox6.Name = "checkBox6";
+            this.checkBox6.Size = new System.Drawing.Size(32, 17);
+            this.checkBox6.TabIndex = 22;
+            this.checkBox6.Text = "6";
+            this.checkBox6.UseVisualStyleBackColor = true;
+            // 
+            // checkBox7
+            // 
+            this.checkBox7.AutoSize = true;
+            this.checkBox7.Location = new System.Drawing.Point(26, 152);
+            this.checkBox7.Name = "checkBox7";
+            this.checkBox7.Size = new System.Drawing.Size(32, 17);
+            this.checkBox7.TabIndex = 23;
+            this.checkBox7.Text = "7";
+            this.checkBox7.UseVisualStyleBackColor = true;
+            // 
+            // checkBox8
+            // 
+            this.checkBox8.AutoSize = true;
+            this.checkBox8.Location = new System.Drawing.Point(99, 152);
+            this.checkBox8.Name = "checkBox8";
+            this.checkBox8.Size = new System.Drawing.Size(32, 17);
+            this.checkBox8.TabIndex = 24;
+            this.checkBox8.Text = "8";
+            this.checkBox8.UseVisualStyleBackColor = true;
+            // 
+            // analogSensor
+            // 
+            this.analogSensor.Location = new System.Drawing.Point(38, 175);
+            this.analogSensor.Name = "analogSensor";
+            this.analogSensor.Size = new System.Drawing.Size(100, 20);
+            this.analogSensor.TabIndex = 25;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(19, 178);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(13, 13);
+            this.label1.TabIndex = 26;
+            this.label1.Text = "9";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -767,12 +757,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ComboBox available_ports;
         private System.Windows.Forms.ComboBox baud_rates;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox Textbox_Auto_W;
-        private System.Windows.Forms.TextBox Textbox_Auto_Vy;
-        private System.Windows.Forms.TextBox Textbox_Auto_Vx;
         private System.Windows.Forms.GroupBox Group_Auto;
         private System.Windows.Forms.GroupBox Group_Manual;
         private System.Windows.Forms.TextBox Textbox_M_Z;
@@ -781,12 +765,6 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.TextBox Textbox_M_W;
-        private System.Windows.Forms.TextBox Textbox_M_Vx;
-        private System.Windows.Forms.TextBox Textbox_M_Vy;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label12;
         private System.Windows.Forms.GroupBox Group_Settings;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label14;
@@ -805,6 +783,16 @@
         private System.Windows.Forms.ComboBox recordList;
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.HScrollBar hScrollBar1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox analogSensor;
+        private System.Windows.Forms.CheckBox checkBox8;
+        private System.Windows.Forms.CheckBox checkBox7;
+        private System.Windows.Forms.CheckBox checkBox6;
+        private System.Windows.Forms.CheckBox checkBox5;
+        private System.Windows.Forms.CheckBox checkBox4;
+        private System.Windows.Forms.CheckBox checkBox3;
+        private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }
 
