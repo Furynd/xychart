@@ -379,7 +379,8 @@ namespace xy_Chart
             sensorList = new List<byte>();
             buffer = new byte[fS.Length];
             fS.Read(buffer, 0, (int)fS.Length);
-            buffList.AddRange(buffer);          
+            buffList.AddRange(buffer);
+            richTextBox1.AppendText(Encoding.UTF8.GetString(buffer).ToString());
             fS.Close();
             richTextBox1.AppendText(recordList.Text +" size: "+buffList.Count.ToString()+"bytes\n");
             if (recordList.Text.Contains(".full")) delay = 1;

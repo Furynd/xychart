@@ -1,29 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Threading;
+using System.Text;
+using System.IO;
 
 namespace Motor
 {
     public partial class Form1 : Form
     {
-        private double setPoint, kP, kI, kD;
-        private double motorData;
+        private double setPoint;//, kP, kI, kD;
         private bool active = false;
         private Thread serialThread;
+        //private Thread dataThread;
         private Thread charThread;
         private string stringBuff;
         private short headerStat;
         private byte[] buffer;
+        private int chartlen=100;
 
-        private List<float> vList;
-        private List<float> splist;
+        private List<short> v0List;
+        private List<short> v1List;
+        private List<short> v2List;
+        //private List<float> splist;
 
         public Form1()
         {
@@ -32,21 +31,44 @@ namespace Motor
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            Send_btn.Enabled = Check_input();
+            chart1.ChartAreas["Mtr1Chart"].Visible = false;
+            chart1.ChartAreas["Mtr0Chart"].Visible = false;
+            chart1.ChartAreas["Mtr2Chart"].Visible = false;
 
         }
 
         private void UpdateChart()
         {
-            if (chart1.Series["Set_point"].Points.Count > 100)
+            if (chart1.Series["Set_point"].Points.Count > chartlen)
             {
                 chart1.Series["Set_point"].Points.RemoveAt(0);
-                chart1.Series["Motor_data"].Points.RemoveAt(0);
+                chart1.Series["Motor_0"].Points.RemoveAt(0);
+                chart1.Series["Motor_1"].Points.RemoveAt(0);
+                chart1.Series["Motor_2"].Points.RemoveAt(0);
+                chart1.Series["SP_0"].Points.RemoveAt(0);
+                chart1.Series["SP_1"].Points.RemoveAt(0);
+                chart1.Series["SP_2"].Points.RemoveAt(0);
             }
-            if (vList.Count > 10)
+            if (v0List.Count > 10)
             {
                 chart1.Series["Set_point"].Points.Add(setPoint);
-                chart1.Series["Motor_data"].Points.Add(vList[0]);
-                vList.RemoveAt(0);
+                chart1.Series["SP_0"].Points.Add(setPoint);
+                chart1.Series["SP_1"].Points.Add(setPoint);
+                chart1.Series["SP_2"].Points.Add(setPoint);
+                chart1.Series["Motor_0"].Points.Add(v0List[0]);
+                chart1.Series["Motor_1"].Points.Add(v1List[0]);
+                chart1.Series["Motor_2"].Points.Add(v2List[0]);
+                try
+                {
+                    v0List.RemoveAt(0);
+                    v1List.RemoveAt(0);
+                    v2List.RemoveAt(0);
+                }
+                catch(Exception) {
+
+                }
+                
             }
         }
 
@@ -54,14 +76,32 @@ namespace Motor
         {
             while (active)
             {
-                this.Invoke((MethodInvoker)delegate { UpdateChart(); });
-                Thread.Sleep(10);
+                Invoke((MethodInvoker)delegate { UpdateChart(); });
+                //Thread.Sleep(10);
             }
+        }
+
+        private void Send_btn_Click(object sender, EventArgs e)
+        {
+            buffer = new byte[19];
+            buffer[0] = (byte)'i';
+            buffer[1] = (byte)'t';
+            buffer[2] = (byte)'s';
+            float[] tempBuf = new float[3];
+
+            tempBuf[0] = Convert.ToSingle(kP_txt.Text);
+            tempBuf[1] = Convert.ToSingle(kI_txt.Text);
+            tempBuf[2] = Convert.ToSingle(kD_txt.Text);
+            Buffer.BlockCopy(tempBuf, 0, buffer, 3, sizeof(float) * tempBuf.Length);
+            //serialPort1.Close();
+            while (!serialPort1.IsOpen) serialPort1.Open();
+            serialPort1.Write(buffer.ToString());
+            textBox1.Text = Encoding.UTF8.GetString(buffer).ToString();
         }
 
         private short get_data(short a)
         {
-            buffer = new byte[4];
+            buffer = new byte[24];
             int temp = serialPort1.ReadChar();
 
             //Invoke((MethodInvoker)delegate { });
@@ -71,27 +111,27 @@ namespace Motor
             else if (headerStat == 2 && temp == 's')
             {
                 serialPort1.Read(buffer, 0, buffer.Length);
-                vList.Add(Convert.ToSingle(buffer));
+                v0List.Add(BitConverter.ToInt16(buffer, 0));
+                v1List.Add(BitConverter.ToInt16(buffer, 2));
+                v2List.Add(BitConverter.ToInt16(buffer, 4));
             }
             return 0;
         }
 
+        private void kP_txt_TextChanged(object sender, EventArgs e)
+        {
+            Send_btn.Enabled = Check_input();
+        }
+
         private void Serial_read()
         {
-            double a = 0;
             headerStat = 0;
-            //stringBuff = serialPort1.ReadExisting();
+            stringBuff = serialPort1.ReadExisting();
             while (active)
             {
-                vList.Add((float)a);
-                a += 0.1;
-                if (a > 100) a = 0;
-                Thread.Sleep(10);
-                //if (serialPort1.IsOpen)
-                //{
-                //    headerStat = get_data(headerStat);
-                //}
+                if (serialPort1.IsOpen) headerStat = get_data(headerStat);
             }
+            //serialThread.Abort();
         }
 
         private void Receive_btn_Click(object sender, EventArgs e)
@@ -100,10 +140,13 @@ namespace Motor
             {
                 active = true;
                 Receive_btn.Text = "Stop";
-                vList = new List<float>();
+                Send_btn.Enabled = false;
+                v0List = new List<short>();
+                v1List = new List<short>();
+                v2List = new List<short>();
                 setPoint = Convert.ToDouble(setPoint_txt.Text);
-                //serialPort1.Close();
-                //while (!serialPort1.IsOpen)serialPort1.Open();
+                serialPort1.Close();
+                while (!serialPort1.IsOpen) serialPort1.Open();
                 serialThread = new Thread(new ThreadStart(Serial_read));
                 serialThread.Start();
                 charThread = new Thread(new ThreadStart(Show_data));
@@ -112,9 +155,60 @@ namespace Motor
             else
             {
                 active = false;
+                Send_btn.Enabled = Check_input();
                 Receive_btn.Text = "Receive";
             }
         }
 
+        private bool Check_input()
+        {
+            return setPoint_txt.Text != "" && kI_txt.Text != "" && kP_txt.Text != "" && kD_txt.Text != "";
+        }
+
+        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        {
+            chart1.ChartAreas["ShowAllChart"].Visible = false;
+            chart1.ChartAreas["Mtr0Chart"].Visible = true;
+            chart1.ChartAreas["Mtr1Chart"].Visible = false;
+            chart1.ChartAreas["Mtr2Chart"].Visible = false;
+        }
+
+        private void radioButton3_CheckedChanged(object sender, EventArgs e)
+        {
+            chart1.ChartAreas["ShowAllChart"].Visible = false;
+            chart1.ChartAreas["Mtr0Chart"].Visible = false;
+            chart1.ChartAreas["Mtr1Chart"].Visible = true;
+            chart1.ChartAreas["Mtr2Chart"].Visible = false;
+        }
+
+        private void radioButton4_CheckedChanged(object sender, EventArgs e)
+        {
+            chart1.ChartAreas["ShowAllChart"].Visible = false;
+            chart1.ChartAreas["Mtr0Chart"].Visible = false;
+            chart1.ChartAreas["Mtr1Chart"].Visible = false;
+            chart1.ChartAreas["Mtr2Chart"].Visible = true;
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            chart1.ChartAreas["ShowAllChart"].Visible = true;
+            chart1.ChartAreas["Mtr0Chart"].Visible = false;
+            chart1.ChartAreas["Mtr1Chart"].Visible = false;
+            chart1.ChartAreas["Mtr2Chart"].Visible = false;
+        }
+
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                chartlen = Convert.ToInt32(textBox1.Text);
+            }
+            catch (Exception) { }
+        }
     }
 }
