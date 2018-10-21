@@ -32,30 +32,31 @@ namespace Motor
         private void Form1_Load(object sender, EventArgs e)
         {
             Send_btn.Enabled = Check_input();
-            chart1.ChartAreas["Mtr1Chart"].Visible = false;
-            chart1.ChartAreas["Mtr0Chart"].Visible = false;
-            chart1.ChartAreas["Mtr2Chart"].Visible = false;
-
+            //testing
+            setPoint = Convert.ToDouble(setPoint_txt.Text);
+            chart1.Series["Set_point"].Points.Add(setPoint);
+            chart1.Series["Set_point"].Points.Add(setPoint);
+            chart1.Series["Motor_0"].Points.Add(10);
+            chart1.Series["Motor_1"].Points.Add(11);
+            chart1.Series["Motor_2"].Points.Add(12);
+            chart1.Series["Motor_0"].Points.Add(11);
+            chart1.Series["Motor_1"].Points.Add(12);
+            chart1.Series["Motor_2"].Points.Add(13);
+            //testing
         }
 
         private void UpdateChart()
         {
-            if (chart1.Series["Set_point"].Points.Count > chartlen)
+            while (chart1.Series["Set_point"].Points.Count > chartlen)
             {
                 chart1.Series["Set_point"].Points.RemoveAt(0);
                 chart1.Series["Motor_0"].Points.RemoveAt(0);
                 chart1.Series["Motor_1"].Points.RemoveAt(0);
                 chart1.Series["Motor_2"].Points.RemoveAt(0);
-                chart1.Series["SP_0"].Points.RemoveAt(0);
-                chart1.Series["SP_1"].Points.RemoveAt(0);
-                chart1.Series["SP_2"].Points.RemoveAt(0);
             }
             if (v0List.Count > 10)
             {
                 chart1.Series["Set_point"].Points.Add(setPoint);
-                chart1.Series["SP_0"].Points.Add(setPoint);
-                chart1.Series["SP_1"].Points.Add(setPoint);
-                chart1.Series["SP_2"].Points.Add(setPoint);
                 chart1.Series["Motor_0"].Points.Add(v0List[0]);
                 chart1.Series["Motor_1"].Points.Add(v1List[0]);
                 chart1.Series["Motor_2"].Points.Add(v2List[0]);
@@ -96,7 +97,6 @@ namespace Motor
             //serialPort1.Close();
             while (!serialPort1.IsOpen) serialPort1.Open();
             serialPort1.Write(buffer.ToString());
-            textBox1.Text = Encoding.UTF8.GetString(buffer).ToString();
         }
 
         private short get_data(short a)
@@ -167,34 +167,31 @@ namespace Motor
 
         private void radioButton2_CheckedChanged(object sender, EventArgs e)
         {
-            chart1.ChartAreas["ShowAllChart"].Visible = false;
-            chart1.ChartAreas["Mtr0Chart"].Visible = true;
-            chart1.ChartAreas["Mtr1Chart"].Visible = false;
-            chart1.ChartAreas["Mtr2Chart"].Visible = false;
+            chart1.Series["Motor_0"].Enabled = true;
+            chart1.Series["Motor_1"].Enabled = false;
+            chart1.Series["Motor_2"].Enabled = false;
         }
 
         private void radioButton3_CheckedChanged(object sender, EventArgs e)
         {
-            chart1.ChartAreas["ShowAllChart"].Visible = false;
-            chart1.ChartAreas["Mtr0Chart"].Visible = false;
-            chart1.ChartAreas["Mtr1Chart"].Visible = true;
-            chart1.ChartAreas["Mtr2Chart"].Visible = false;
+            chart1.Series["Motor_0"].Enabled = false;
+            chart1.Series["Motor_1"].Enabled = true;
+            chart1.Series["Motor_2"].Enabled = false;
         }
 
         private void radioButton4_CheckedChanged(object sender, EventArgs e)
         {
-            chart1.ChartAreas["ShowAllChart"].Visible = false;
-            chart1.ChartAreas["Mtr0Chart"].Visible = false;
-            chart1.ChartAreas["Mtr1Chart"].Visible = false;
-            chart1.ChartAreas["Mtr2Chart"].Visible = true;
+            chart1.Series["Motor_0"].Enabled = false;
+            chart1.Series["Motor_1"].Enabled = false;
+            chart1.Series["Motor_2"].Enabled = true;
         }
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
-            chart1.ChartAreas["ShowAllChart"].Visible = true;
-            chart1.ChartAreas["Mtr0Chart"].Visible = false;
-            chart1.ChartAreas["Mtr1Chart"].Visible = false;
-            chart1.ChartAreas["Mtr2Chart"].Visible = false;
+            chart1.Series["Motor_0"].Enabled = true;
+            chart1.Series["Motor_1"].Enabled = true;
+            chart1.Series["Motor_2"].Enabled = true;
+
         }
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
