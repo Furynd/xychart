@@ -555,8 +555,8 @@ namespace xy_Chart
                 //}
                 //this.Invoke((MethodInvoker)delegate { UpdateChart(); });
                 #endregion
-                //dumpbuff = serialPort1.ReadExisting();
-                //fullfS.Write(Encoding.BigEndianUnicode.GetBytes(dumpbuff), 0, dumpbuff.Length);
+                dumpbuff = serialPort1.ReadExisting();
+                fullfS.Write(Encoding.Unicode.GetBytes(dumpbuff), 0, dumpbuff.Length);
                 stat = 0;
             }
             else stat = 0;

@@ -12,7 +12,7 @@ namespace Motor
         private double setPoint;//, kP, kI, kD;
         private bool active = false;
         private Thread serialThread;
-        //private Thread dataThread;
+        private Thread dataThread;
         private Thread charThread;
         private string stringBuff;
         private short headerStat;
@@ -32,44 +32,27 @@ namespace Motor
         private void Form1_Load(object sender, EventArgs e)
         {
             Send_btn.Enabled = Check_input();
-            //testing
-            setPoint = Convert.ToDouble(setPoint_txt.Text);
-            chart1.Series["Set_point"].Points.Add(setPoint);
-            chart1.Series["Set_point"].Points.Add(setPoint);
-            chart1.Series["Motor_0"].Points.Add(10);
-            chart1.Series["Motor_1"].Points.Add(11);
-            chart1.Series["Motor_2"].Points.Add(12);
-            chart1.Series["Motor_0"].Points.Add(11);
-            chart1.Series["Motor_1"].Points.Add(12);
-            chart1.Series["Motor_2"].Points.Add(13);
-            //testing
         }
 
         private void UpdateChart()
         {
-            while (chart1.Series["Set_point"].Points.Count > chartlen)
-            {
-                chart1.Series["Set_point"].Points.RemoveAt(0);
-                chart1.Series["Motor_0"].Points.RemoveAt(0);
-                chart1.Series["Motor_1"].Points.RemoveAt(0);
-                chart1.Series["Motor_2"].Points.RemoveAt(0);
-            }
-            if (v0List.Count > 10)
+            if (v0List.Count > 5)
             {
                 chart1.Series["Set_point"].Points.Add(setPoint);
                 chart1.Series["Motor_0"].Points.Add(v0List[0]);
                 chart1.Series["Motor_1"].Points.Add(v1List[0]);
                 chart1.Series["Motor_2"].Points.Add(v2List[0]);
-                try
-                {
-                    v0List.RemoveAt(0);
-                    v1List.RemoveAt(0);
-                    v2List.RemoveAt(0);
-                }
-                catch(Exception) {
-
-                }
+                v0List.RemoveAt(0);
+                v1List.RemoveAt(0);
+                v2List.RemoveAt(0);
                 
+            }
+            if (chart1.Series["Set_point"].Points.Count > chartlen)
+            {
+                chart1.Series["Set_point"].Points.RemoveAt(0);
+                chart1.Series["Motor_0"].Points.RemoveAt(0);
+                chart1.Series["Motor_1"].Points.RemoveAt(0);
+                chart1.Series["Motor_2"].Points.RemoveAt(0);
             }
         }
 
@@ -84,19 +67,44 @@ namespace Motor
 
         private void Send_btn_Click(object sender, EventArgs e)
         {
-            buffer = new byte[19];
-            buffer[0] = (byte)'i';
-            buffer[1] = (byte)'t';
-            buffer[2] = (byte)'s';
+            buffer = new byte[12];
+            //buffer[0] = (byte)'i';
+            //buffer[1] = (byte)'t';
+            //buffer[2] = (byte)'s';
             float[] tempBuf = new float[3];
+            char[] tser = new char[12];
 
             tempBuf[0] = Convert.ToSingle(kP_txt.Text);
             tempBuf[1] = Convert.ToSingle(kI_txt.Text);
             tempBuf[2] = Convert.ToSingle(kD_txt.Text);
-            Buffer.BlockCopy(tempBuf, 0, buffer, 3, sizeof(float) * tempBuf.Length);
+            Buffer.BlockCopy(tempBuf, 0, buffer, 0, sizeof(float) * tempBuf.Length);
             //serialPort1.Close();
+            Buffer.BlockCopy(tempBuf, 0, tser, 0, sizeof(float) * tempBuf.Length);
+
+            string tester = new string(tser);
+
             while (!serialPort1.IsOpen) serialPort1.Open();
-            serialPort1.Write(buffer.ToString());
+            serialPort1.Write(buffer, 0, 12);
+            //serialPort1.Write(tester);
+            Log_text.AppendText("Kp = " + tempBuf[0] + "\n");
+            Log_text.AppendText("Ki = " + tempBuf[1] + "\n");
+            Log_text.AppendText("Kd = " + tempBuf[2] + "\n");
+
+            //Log_text.AppendText(Encoding.Default.GetString(buffer));
+            byte[] testes = new byte[12];
+            Log_text.AppendText(tester+"\n");
+            
+            Buffer.BlockCopy(tester.ToCharArray(), 0, testes, 0, tser.Length);
+            Log_text.AppendText(BitConverter.ToSingle(testes, 0) + "\n");
+            Log_text.AppendText(BitConverter.ToSingle(testes, 4) + "\n");
+            Log_text.AppendText(BitConverter.ToSingle(testes, 8) + "\n");
+
+            //for (int i = 0; i< buffer.Length; i++)
+            //{
+            //    //serialPort1.Write(buffer[i].ToString());
+            //    tmp[0] = buffer[i];
+            //    Log_text.AppendText(Encoding.Default.GetString(tmp));
+            //}
         }
 
         private short get_data(short a)
@@ -114,8 +122,24 @@ namespace Motor
                 v0List.Add(BitConverter.ToInt16(buffer, 0));
                 v1List.Add(BitConverter.ToInt16(buffer, 2));
                 v2List.Add(BitConverter.ToInt16(buffer, 4));
+                serialPort1.ReadExisting();
             }
-            return 0;
+            return a;
+        }
+
+        private void remove_data()
+        {
+            while (active)
+            {
+                if (chart1.Series["Set_point"].Points.Count > chartlen)
+                {
+                    chart1.Series["Set_point"].Points.RemoveAt(0);
+                    chart1.Series["Motor_0"].Points.RemoveAt(0);
+                    chart1.Series["Motor_1"].Points.RemoveAt(0);
+                    chart1.Series["Motor_2"].Points.RemoveAt(0);
+                }
+            }
+            
         }
 
         private void kP_txt_TextChanged(object sender, EventArgs e)
@@ -140,7 +164,7 @@ namespace Motor
             {
                 active = true;
                 Receive_btn.Text = "Stop";
-                Send_btn.Enabled = false;
+                //Send_btn.Enabled = false;
                 v0List = new List<short>();
                 v1List = new List<short>();
                 v2List = new List<short>();
@@ -151,6 +175,8 @@ namespace Motor
                 serialThread.Start();
                 charThread = new Thread(new ThreadStart(Show_data));
                 charThread.Start();
+                //dataThread = new Thread(new ThreadStart(remove_data));
+                //dataThread.Start();
             }
             else
             {

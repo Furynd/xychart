@@ -54,6 +54,7 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
+            this.Log_text = new System.Windows.Forms.RichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -114,6 +115,7 @@
             this.kI_txt.Name = "kI_txt";
             this.kI_txt.Size = new System.Drawing.Size(100, 20);
             this.kI_txt.TabIndex = 2;
+            this.kI_txt.Text = "2.2";
             this.kI_txt.TextChanged += new System.EventHandler(this.kP_txt_TextChanged);
             // 
             // kD_txt
@@ -122,6 +124,7 @@
             this.kD_txt.Name = "kD_txt";
             this.kD_txt.Size = new System.Drawing.Size(100, 20);
             this.kD_txt.TabIndex = 4;
+            this.kD_txt.Text = "3.3";
             this.kD_txt.TextChanged += new System.EventHandler(this.kP_txt_TextChanged);
             // 
             // kP_txt
@@ -130,6 +133,7 @@
             this.kP_txt.Name = "kP_txt";
             this.kP_txt.Size = new System.Drawing.Size(100, 20);
             this.kP_txt.TabIndex = 3;
+            this.kP_txt.Text = "1.1";
             this.kP_txt.TextChanged += new System.EventHandler(this.kP_txt_TextChanged);
             // 
             // label1
@@ -275,17 +279,26 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(850, 384);
+            this.textBox1.Location = new System.Drawing.Point(824, 345);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(159, 20);
             this.textBox1.TabIndex = 18;
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            // 
+            // Log_text
+            // 
+            this.Log_text.Location = new System.Drawing.Point(813, 371);
+            this.Log_text.Name = "Log_text";
+            this.Log_text.Size = new System.Drawing.Size(200, 96);
+            this.Log_text.TabIndex = 19;
+            this.Log_text.Text = "";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1023, 474);
+            this.Controls.Add(this.Log_text);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -325,6 +338,7 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.RichTextBox Log_text;
     }
 }
 
