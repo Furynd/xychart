@@ -29,15 +29,15 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series7 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series8 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series9 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series10 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series11 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series12 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.Start_btn = new System.Windows.Forms.Button();
@@ -53,6 +53,16 @@
             this.available_ports = new System.Windows.Forms.ComboBox();
             this.baud_rates = new System.Windows.Forms.ComboBox();
             this.Group_Auto = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.analogSensor = new System.Windows.Forms.TextBox();
+            this.checkBox8 = new System.Windows.Forms.CheckBox();
+            this.checkBox7 = new System.Windows.Forms.CheckBox();
+            this.checkBox6 = new System.Windows.Forms.CheckBox();
+            this.checkBox5 = new System.Windows.Forms.CheckBox();
+            this.checkBox4 = new System.Windows.Forms.CheckBox();
+            this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.Go_Btn = new System.Windows.Forms.Button();
             this.Group_Manual = new System.Windows.Forms.GroupBox();
             this.Textbox_M_Z = new System.Windows.Forms.TextBox();
@@ -78,141 +88,133 @@
             this.pauseBtn = new System.Windows.Forms.Button();
             this.fullPlayBtn = new System.Windows.Forms.Button();
             this.replayBtn = new System.Windows.Forms.Button();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
-            this.checkBox4 = new System.Windows.Forms.CheckBox();
-            this.checkBox5 = new System.Windows.Forms.CheckBox();
-            this.checkBox6 = new System.Windows.Forms.CheckBox();
-            this.checkBox7 = new System.Windows.Forms.CheckBox();
-            this.checkBox8 = new System.Windows.Forms.CheckBox();
-            this.analogSensor = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.Data_track = new System.Windows.Forms.TrackBar();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.Group_Auto.SuspendLayout();
             this.Group_Manual.SuspendLayout();
             this.Group_Settings.SuspendLayout();
             this.Group_Log.SuspendLayout();
             this.Group_Record.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Data_track)).BeginInit();
             this.SuspendLayout();
             // 
             // chart1
             // 
             this.chart1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            chartArea1.AlignmentOrientation = ((System.Windows.Forms.DataVisualization.Charting.AreaAlignmentOrientations)((System.Windows.Forms.DataVisualization.Charting.AreaAlignmentOrientations.Vertical | System.Windows.Forms.DataVisualization.Charting.AreaAlignmentOrientations.Horizontal)));
-            chartArea1.AxisX.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.True;
-            chartArea1.AxisX.Interval = 5D;
-            chartArea1.AxisX.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
-            chartArea1.AxisX.MajorGrid.Enabled = false;
-            chartArea1.AxisX.Maximum = 100D;
-            chartArea1.AxisX.Minimum = 0D;
-            chartArea1.AxisX.ScaleBreakStyle.StartFromZero = System.Windows.Forms.DataVisualization.Charting.StartFromZero.Yes;
-            chartArea1.AxisX.ScaleView.MinSize = 10D;
-            chartArea1.AxisY.Interval = 5D;
-            chartArea1.AxisY.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
-            chartArea1.AxisY.MajorGrid.Enabled = false;
-            chartArea1.AxisY.Maximum = 100D;
-            chartArea1.AxisY.Minimum = 0D;
-            chartArea1.AxisY.ScaleBreakStyle.StartFromZero = System.Windows.Forms.DataVisualization.Charting.StartFromZero.Yes;
-            chartArea1.AxisY.ScaleView.MinSize = 10D;
-            chartArea1.BackImage = "C:\\Users\\User\\source\\repos\\Solution1\\xy_Chart\\Resources\\field.jpg";
-            chartArea1.BackImageAlignment = System.Windows.Forms.DataVisualization.Charting.ChartImageAlignmentStyle.Center;
-            chartArea1.BackImageWrapMode = System.Windows.Forms.DataVisualization.Charting.ChartImageWrapMode.Scaled;
-            chartArea1.BorderWidth = 0;
-            chartArea1.InnerPlotPosition.Auto = false;
-            chartArea1.InnerPlotPosition.Height = 90F;
-            chartArea1.InnerPlotPosition.Width = 90F;
-            chartArea1.InnerPlotPosition.X = 5F;
-            chartArea1.InnerPlotPosition.Y = 2F;
-            chartArea1.IsSameFontSizeForAllAxes = true;
-            chartArea1.Name = "auto_chart";
-            chartArea1.Position.Auto = false;
-            chartArea1.Position.Height = 90F;
-            chartArea1.Position.Width = 90F;
-            chartArea1.Position.X = 3F;
-            chartArea1.Position.Y = 3F;
-            chartArea2.AxisX.Interval = 10D;
-            chartArea2.AxisX.LabelStyle.Enabled = false;
-            chartArea2.AxisX.MajorGrid.Enabled = false;
-            chartArea2.AxisX.MajorTickMark.Enabled = false;
-            chartArea2.AxisY.IsLabelAutoFit = false;
-            chartArea2.AxisY.IsMarksNextToAxis = false;
-            chartArea2.AxisY.LabelStyle.Enabled = false;
-            chartArea2.AxisY.MajorGrid.Enabled = false;
-            chartArea2.AxisY.MajorTickMark.Enabled = false;
-            chartArea2.AxisY.Maximum = 124D;
-            chartArea2.AxisY.Minimum = 24D;
-            chartArea2.BackColor = System.Drawing.Color.Transparent;
-            chartArea2.BackImageAlignment = System.Windows.Forms.DataVisualization.Charting.ChartImageAlignmentStyle.Center;
-            chartArea2.BackImageTransparentColor = System.Drawing.Color.Transparent;
-            chartArea2.BorderWidth = 0;
-            chartArea2.InnerPlotPosition.Auto = false;
-            chartArea2.InnerPlotPosition.Height = 90F;
-            chartArea2.InnerPlotPosition.Width = 90F;
-            chartArea2.InnerPlotPosition.X = 5F;
-            chartArea2.InnerPlotPosition.Y = 2F;
-            chartArea2.IsSameFontSizeForAllAxes = true;
-            chartArea2.Name = "manual_chart";
-            chartArea2.Position.Auto = false;
-            chartArea2.Position.Height = 90F;
-            chartArea2.Position.Width = 90F;
-            chartArea2.Position.X = 3F;
-            chartArea2.Position.Y = 3F;
-            this.chart1.ChartAreas.Add(chartArea1);
-            this.chart1.ChartAreas.Add(chartArea2);
+            chartArea3.AlignmentOrientation = ((System.Windows.Forms.DataVisualization.Charting.AreaAlignmentOrientations)((System.Windows.Forms.DataVisualization.Charting.AreaAlignmentOrientations.Vertical | System.Windows.Forms.DataVisualization.Charting.AreaAlignmentOrientations.Horizontal)));
+            chartArea3.AxisX.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.True;
+            chartArea3.AxisX.Interval = 5D;
+            chartArea3.AxisX.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
+            chartArea3.AxisX.MajorGrid.Enabled = false;
+            chartArea3.AxisX.Maximum = 100D;
+            chartArea3.AxisX.Minimum = 0D;
+            chartArea3.AxisX.ScaleBreakStyle.StartFromZero = System.Windows.Forms.DataVisualization.Charting.StartFromZero.Yes;
+            chartArea3.AxisX.ScaleView.MinSize = 10D;
+            chartArea3.AxisY.Interval = 5D;
+            chartArea3.AxisY.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
+            chartArea3.AxisY.MajorGrid.Enabled = false;
+            chartArea3.AxisY.Maximum = 100D;
+            chartArea3.AxisY.Minimum = 0D;
+            chartArea3.AxisY.ScaleBreakStyle.StartFromZero = System.Windows.Forms.DataVisualization.Charting.StartFromZero.Yes;
+            chartArea3.AxisY.ScaleView.MinSize = 10D;
+            chartArea3.BackImage = "C:\\Users\\User\\source\\repos\\Solution1\\xy_Chart\\Resources\\field.jpg";
+            chartArea3.BackImageAlignment = System.Windows.Forms.DataVisualization.Charting.ChartImageAlignmentStyle.Center;
+            chartArea3.BackImageWrapMode = System.Windows.Forms.DataVisualization.Charting.ChartImageWrapMode.Scaled;
+            chartArea3.BorderWidth = 0;
+            chartArea3.InnerPlotPosition.Auto = false;
+            chartArea3.InnerPlotPosition.Height = 90F;
+            chartArea3.InnerPlotPosition.Width = 90F;
+            chartArea3.InnerPlotPosition.X = 5F;
+            chartArea3.InnerPlotPosition.Y = 2F;
+            chartArea3.IsSameFontSizeForAllAxes = true;
+            chartArea3.Name = "auto_chart";
+            chartArea3.Position.Auto = false;
+            chartArea3.Position.Height = 90F;
+            chartArea3.Position.Width = 90F;
+            chartArea3.Position.X = 3F;
+            chartArea3.Position.Y = 3F;
+            chartArea4.AxisX.Interval = 10D;
+            chartArea4.AxisX.LabelStyle.Enabled = false;
+            chartArea4.AxisX.MajorGrid.Enabled = false;
+            chartArea4.AxisX.MajorTickMark.Enabled = false;
+            chartArea4.AxisY.IsLabelAutoFit = false;
+            chartArea4.AxisY.IsMarksNextToAxis = false;
+            chartArea4.AxisY.LabelStyle.Enabled = false;
+            chartArea4.AxisY.MajorGrid.Enabled = false;
+            chartArea4.AxisY.MajorTickMark.Enabled = false;
+            chartArea4.AxisY.Maximum = 124D;
+            chartArea4.AxisY.Minimum = 24D;
+            chartArea4.BackColor = System.Drawing.Color.Transparent;
+            chartArea4.BackImageAlignment = System.Windows.Forms.DataVisualization.Charting.ChartImageAlignmentStyle.Center;
+            chartArea4.BackImageTransparentColor = System.Drawing.Color.Transparent;
+            chartArea4.BorderWidth = 0;
+            chartArea4.InnerPlotPosition.Auto = false;
+            chartArea4.InnerPlotPosition.Height = 90F;
+            chartArea4.InnerPlotPosition.Width = 90F;
+            chartArea4.InnerPlotPosition.X = 5F;
+            chartArea4.InnerPlotPosition.Y = 2F;
+            chartArea4.IsSameFontSizeForAllAxes = true;
+            chartArea4.Name = "manual_chart";
+            chartArea4.Position.Auto = false;
+            chartArea4.Position.Height = 90F;
+            chartArea4.Position.Width = 90F;
+            chartArea4.Position.X = 3F;
+            chartArea4.Position.Y = 3F;
+            this.chart1.ChartAreas.Add(chartArea3);
+            this.chart1.ChartAreas.Add(chartArea4);
             this.chart1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            legend1.Enabled = false;
-            legend1.Name = "Legend1";
-            this.chart1.Legends.Add(legend1);
+            legend2.Enabled = false;
+            legend2.Name = "Legend1";
+            this.chart1.Legends.Add(legend2);
             this.chart1.Location = new System.Drawing.Point(0, 0);
             this.chart1.Margin = new System.Windows.Forms.Padding(0);
             this.chart1.Name = "chart1";
-            series1.ChartArea = "auto_chart";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Bubble;
-            series1.CustomProperties = "BubbleMinSize=8, BubbleMaxSize=8";
-            series1.Legend = "Legend1";
-            series1.MarkerSize = 3;
-            series1.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Triangle;
-            series1.Name = "auto";
-            series1.YValuesPerPoint = 2;
-            series2.ChartArea = "manual_chart";
-            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Bubble;
-            series2.CustomProperties = "BubbleMinSize=8, BubbleMaxSize=8";
-            series2.Legend = "Legend1";
-            series2.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Square;
-            series2.Name = "manual";
-            series2.YValuesPerPoint = 6;
-            series3.ChartArea = "auto_chart";
-            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series3.Legend = "Legend1";
-            series3.Name = "history";
-            series4.ChartArea = "manual_chart";
-            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series4.Legend = "Legend1";
-            series4.Name = "manual history";
-            series5.BorderWidth = 9;
-            series5.ChartArea = "auto_chart";
-            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series5.Legend = "Legend1";
-            series5.MarkerSize = 9;
-            series5.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
-            series5.Name = "auto_dir";
-            series5.YValuesPerPoint = 2;
-            series6.BorderWidth = 9;
-            series6.ChartArea = "manual_chart";
-            series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series6.LabelBorderWidth = 9;
-            series6.Legend = "Legend1";
-            series6.MarkerSize = 9;
-            series6.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
-            series6.Name = "manual_dir";
-            series6.YValuesPerPoint = 2;
-            this.chart1.Series.Add(series1);
-            this.chart1.Series.Add(series2);
-            this.chart1.Series.Add(series3);
-            this.chart1.Series.Add(series4);
-            this.chart1.Series.Add(series5);
-            this.chart1.Series.Add(series6);
+            series7.ChartArea = "auto_chart";
+            series7.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Bubble;
+            series7.CustomProperties = "BubbleMinSize=8, BubbleMaxSize=8";
+            series7.Legend = "Legend1";
+            series7.MarkerSize = 3;
+            series7.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Triangle;
+            series7.Name = "auto";
+            series7.YValuesPerPoint = 2;
+            series8.ChartArea = "manual_chart";
+            series8.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Bubble;
+            series8.CustomProperties = "BubbleMinSize=8, BubbleMaxSize=8";
+            series8.Legend = "Legend1";
+            series8.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Square;
+            series8.Name = "manual";
+            series8.YValuesPerPoint = 6;
+            series9.ChartArea = "auto_chart";
+            series9.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series9.Legend = "Legend1";
+            series9.Name = "history";
+            series10.ChartArea = "manual_chart";
+            series10.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series10.Legend = "Legend1";
+            series10.Name = "manual history";
+            series11.BorderWidth = 9;
+            series11.ChartArea = "auto_chart";
+            series11.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series11.Legend = "Legend1";
+            series11.MarkerSize = 9;
+            series11.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
+            series11.Name = "auto_dir";
+            series11.YValuesPerPoint = 2;
+            series12.BorderWidth = 9;
+            series12.ChartArea = "manual_chart";
+            series12.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series12.LabelBorderWidth = 9;
+            series12.Legend = "Legend1";
+            series12.MarkerSize = 9;
+            series12.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
+            series12.Name = "manual_dir";
+            series12.YValuesPerPoint = 2;
+            this.chart1.Series.Add(series7);
+            this.chart1.Series.Add(series8);
+            this.chart1.Series.Add(series9);
+            this.chart1.Series.Add(series10);
+            this.chart1.Series.Add(series11);
+            this.chart1.Series.Add(series12);
             this.chart1.Size = new System.Drawing.Size(900, 700);
             this.chart1.TabIndex = 0;
             this.chart1.Text = "chart1";
@@ -359,6 +361,102 @@
             this.Group_Auto.TabIndex = 37;
             this.Group_Auto.TabStop = false;
             this.Group_Auto.Text = "Auto Robot";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(19, 178);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(13, 13);
+            this.label1.TabIndex = 26;
+            this.label1.Text = "9";
+            // 
+            // analogSensor
+            // 
+            this.analogSensor.Location = new System.Drawing.Point(38, 175);
+            this.analogSensor.Name = "analogSensor";
+            this.analogSensor.Size = new System.Drawing.Size(100, 20);
+            this.analogSensor.TabIndex = 25;
+            // 
+            // checkBox8
+            // 
+            this.checkBox8.AutoSize = true;
+            this.checkBox8.Location = new System.Drawing.Point(99, 152);
+            this.checkBox8.Name = "checkBox8";
+            this.checkBox8.Size = new System.Drawing.Size(32, 17);
+            this.checkBox8.TabIndex = 24;
+            this.checkBox8.Text = "8";
+            this.checkBox8.UseVisualStyleBackColor = true;
+            // 
+            // checkBox7
+            // 
+            this.checkBox7.AutoSize = true;
+            this.checkBox7.Location = new System.Drawing.Point(26, 152);
+            this.checkBox7.Name = "checkBox7";
+            this.checkBox7.Size = new System.Drawing.Size(32, 17);
+            this.checkBox7.TabIndex = 23;
+            this.checkBox7.Text = "7";
+            this.checkBox7.UseVisualStyleBackColor = true;
+            // 
+            // checkBox6
+            // 
+            this.checkBox6.AutoSize = true;
+            this.checkBox6.Location = new System.Drawing.Point(99, 136);
+            this.checkBox6.Name = "checkBox6";
+            this.checkBox6.Size = new System.Drawing.Size(32, 17);
+            this.checkBox6.TabIndex = 22;
+            this.checkBox6.Text = "6";
+            this.checkBox6.UseVisualStyleBackColor = true;
+            // 
+            // checkBox5
+            // 
+            this.checkBox5.AutoSize = true;
+            this.checkBox5.Location = new System.Drawing.Point(26, 136);
+            this.checkBox5.Name = "checkBox5";
+            this.checkBox5.Size = new System.Drawing.Size(32, 17);
+            this.checkBox5.TabIndex = 21;
+            this.checkBox5.Text = "5";
+            this.checkBox5.UseVisualStyleBackColor = true;
+            // 
+            // checkBox4
+            // 
+            this.checkBox4.AutoSize = true;
+            this.checkBox4.Location = new System.Drawing.Point(99, 120);
+            this.checkBox4.Name = "checkBox4";
+            this.checkBox4.Size = new System.Drawing.Size(32, 17);
+            this.checkBox4.TabIndex = 20;
+            this.checkBox4.Text = "4";
+            this.checkBox4.UseVisualStyleBackColor = true;
+            // 
+            // checkBox3
+            // 
+            this.checkBox3.AutoSize = true;
+            this.checkBox3.Location = new System.Drawing.Point(26, 120);
+            this.checkBox3.Name = "checkBox3";
+            this.checkBox3.Size = new System.Drawing.Size(32, 17);
+            this.checkBox3.TabIndex = 19;
+            this.checkBox3.Text = "3";
+            this.checkBox3.UseVisualStyleBackColor = true;
+            // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Location = new System.Drawing.Point(99, 105);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(32, 17);
+            this.checkBox2.TabIndex = 18;
+            this.checkBox2.Text = "2";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(26, 104);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(32, 17);
+            this.checkBox1.TabIndex = 17;
+            this.checkBox1.Text = "1";
+            this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // Go_Btn
             // 
@@ -542,6 +640,7 @@
             // 
             // Group_Record
             // 
+            this.Group_Record.Controls.Add(this.Data_track);
             this.Group_Record.Controls.Add(this.progressBar1);
             this.Group_Record.Controls.Add(this.hScrollBar1);
             this.Group_Record.Controls.Add(this.recordList);
@@ -565,9 +664,9 @@
             // 
             // hScrollBar1
             // 
-            this.hScrollBar1.Location = new System.Drawing.Point(37, 135);
+            this.hScrollBar1.Location = new System.Drawing.Point(35, 135);
             this.hScrollBar1.Name = "hScrollBar1";
-            this.hScrollBar1.Size = new System.Drawing.Size(136, 19);
+            this.hScrollBar1.Size = new System.Drawing.Size(138, 19);
             this.hScrollBar1.TabIndex = 5;
             // 
             // recordList
@@ -577,6 +676,7 @@
             this.recordList.Name = "recordList";
             this.recordList.Size = new System.Drawing.Size(130, 21);
             this.recordList.TabIndex = 4;
+            this.recordList.SelectedIndexChanged += new System.EventHandler(this.recordList_SelectedIndexChanged);
             this.recordList.SelectionChangeCommitted += new System.EventHandler(this.recordList_SelectionChangeCommitted);
             // 
             // pathText
@@ -615,101 +715,12 @@
             this.replayBtn.UseVisualStyleBackColor = true;
             this.replayBtn.Click += new System.EventHandler(this.replayBtn_Click);
             // 
-            // checkBox1
+            // Data_track
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(26, 104);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(32, 17);
-            this.checkBox1.TabIndex = 17;
-            this.checkBox1.Text = "1";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            // 
-            // checkBox2
-            // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(99, 105);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(32, 17);
-            this.checkBox2.TabIndex = 18;
-            this.checkBox2.Text = "2";
-            this.checkBox2.UseVisualStyleBackColor = true;
-            // 
-            // checkBox3
-            // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.Location = new System.Drawing.Point(26, 120);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(32, 17);
-            this.checkBox3.TabIndex = 19;
-            this.checkBox3.Text = "3";
-            this.checkBox3.UseVisualStyleBackColor = true;
-            // 
-            // checkBox4
-            // 
-            this.checkBox4.AutoSize = true;
-            this.checkBox4.Location = new System.Drawing.Point(99, 120);
-            this.checkBox4.Name = "checkBox4";
-            this.checkBox4.Size = new System.Drawing.Size(32, 17);
-            this.checkBox4.TabIndex = 20;
-            this.checkBox4.Text = "4";
-            this.checkBox4.UseVisualStyleBackColor = true;
-            // 
-            // checkBox5
-            // 
-            this.checkBox5.AutoSize = true;
-            this.checkBox5.Location = new System.Drawing.Point(26, 136);
-            this.checkBox5.Name = "checkBox5";
-            this.checkBox5.Size = new System.Drawing.Size(32, 17);
-            this.checkBox5.TabIndex = 21;
-            this.checkBox5.Text = "5";
-            this.checkBox5.UseVisualStyleBackColor = true;
-            // 
-            // checkBox6
-            // 
-            this.checkBox6.AutoSize = true;
-            this.checkBox6.Location = new System.Drawing.Point(99, 136);
-            this.checkBox6.Name = "checkBox6";
-            this.checkBox6.Size = new System.Drawing.Size(32, 17);
-            this.checkBox6.TabIndex = 22;
-            this.checkBox6.Text = "6";
-            this.checkBox6.UseVisualStyleBackColor = true;
-            // 
-            // checkBox7
-            // 
-            this.checkBox7.AutoSize = true;
-            this.checkBox7.Location = new System.Drawing.Point(26, 152);
-            this.checkBox7.Name = "checkBox7";
-            this.checkBox7.Size = new System.Drawing.Size(32, 17);
-            this.checkBox7.TabIndex = 23;
-            this.checkBox7.Text = "7";
-            this.checkBox7.UseVisualStyleBackColor = true;
-            // 
-            // checkBox8
-            // 
-            this.checkBox8.AutoSize = true;
-            this.checkBox8.Location = new System.Drawing.Point(99, 152);
-            this.checkBox8.Name = "checkBox8";
-            this.checkBox8.Size = new System.Drawing.Size(32, 17);
-            this.checkBox8.TabIndex = 24;
-            this.checkBox8.Text = "8";
-            this.checkBox8.UseVisualStyleBackColor = true;
-            // 
-            // analogSensor
-            // 
-            this.analogSensor.Location = new System.Drawing.Point(38, 175);
-            this.analogSensor.Name = "analogSensor";
-            this.analogSensor.Size = new System.Drawing.Size(100, 20);
-            this.analogSensor.TabIndex = 25;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(19, 178);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(13, 13);
-            this.label1.TabIndex = 26;
-            this.label1.Text = "9";
+            this.Data_track.Location = new System.Drawing.Point(35, 197);
+            this.Data_track.Name = "Data_track";
+            this.Data_track.Size = new System.Drawing.Size(138, 45);
+            this.Data_track.TabIndex = 7;
             // 
             // Form1
             // 
@@ -738,6 +749,7 @@
             this.Group_Log.PerformLayout();
             this.Group_Record.ResumeLayout(false);
             this.Group_Record.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Data_track)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -793,6 +805,7 @@
         private System.Windows.Forms.CheckBox checkBox3;
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.TrackBar Data_track;
     }
 }
 

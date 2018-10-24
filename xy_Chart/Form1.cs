@@ -429,6 +429,11 @@ namespace xy_Chart
             Turnoff();
         }
 
+        private void recordList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
         private int get_new_width(char type)
         {
             int width = 0;
@@ -444,14 +449,14 @@ namespace xy_Chart
                 Textbox_Auto_X.Text = Convert.ToString(x_pos);
                 Textbox_Auto_Y.Text = Convert.ToString(y_pos);
                 Textbox_Auto_Z.Text = Convert.ToString(z_pos);
-                checkBox1.Checked = (((sensor_vals >> 7) & 1) != 1);
-                checkBox2.Checked = (((sensor_vals >> 6) & 1) != 1);
-                checkBox3.Checked = (((sensor_vals >> 5) & 1) != 1);
-                checkBox4.Checked = (((sensor_vals >> 4) & 1) != 1);
-                checkBox5.Checked = (((sensor_vals >> 3) & 1) != 1);
-                checkBox6.Checked = (((sensor_vals >> 2) & 1) != 1);
-                checkBox7.Checked = (((sensor_vals >> 1) & 1) != 1);
-                checkBox8.Checked = (((sensor_vals) & 1) != 1);
+                checkBox8.Checked = (((sensor_vals >> 7) & 1) != 1);
+                checkBox7.Checked = (((sensor_vals >> 6) & 1) != 1);
+                checkBox6.Checked = (((sensor_vals >> 5) & 1) != 1);
+                checkBox5.Checked = (((sensor_vals >> 4) & 1) != 1);
+                checkBox4.Checked = (((sensor_vals >> 3) & 1) != 1);
+                checkBox3.Checked = (((sensor_vals >> 2) & 1) != 1);
+                checkBox2.Checked = (((sensor_vals >> 1) & 1) != 1);
+                checkBox1.Checked = (((sensor_vals) & 1) != 1);
                 analogSensor.Text = Convert.ToString(analogval);
                 chart1.Series["auto"].Points.Clear();
                 chart1.Series["auto_dir"].Points.Clear();
@@ -478,52 +483,6 @@ namespace xy_Chart
             //richTextBox1.AppendText($"Moved to :({x_pos}, {y_pos})\n");
         }
 
-        ////private void UpdateChart2()
-        //{
-        //    if (!Sel_Man.Checked)
-        //    {
-        //        chart1.Series["auto"].Points.Clear();
-        //        chart1.Series["auto_dir"].Points.Clear();
-        //        chart1.Series["auto"].Points.AddXY(x_tampil, y_tampil);
-        //        chart1.Series["auto_dir"].Points.AddXY(x_tampil, y_tampil);
-        //        chart1.Series["auto_dir"].Points.AddXY(x_tampil + 400 * Math.Cos(teta_tampil * 0.01745329), y_tampil + 400 * Math.Sin(teta_tampil * 0.01745329));
-        //        Textbox_Auto_X.Text = Convert.ToString(x_tampil);
-        //        Textbox_Auto_Y.Text = Convert.ToString(y_tampil);
-        //        Textbox_Auto_Z.Text = Convert.ToString(teta_tampil);
-        //    }
-        //    if (history_enable.Checked)
-        //    {
-        //        chart1.Series["history"].Points.AddXY(x_tampil, y_tampil);
-        //    }
-        //    //richTextBox1.AppendText($"Moved to :({x_pos}, {y_pos})\n");
-        //}
-
-        //private int get_data2(int stat)
-        //{
-        //    temp = serialPort1.ReadChar();
-        //    this.Invoke((MethodInvoker)delegate { richTextBox1.AppendText("Received:" + temp + "\n"); });
-        //    if (stat == 0 && temp == 'i') stat = 1;
-        //    else if (stat == 1 && temp == 't') stat = 2;
-        //    else if (stat == 2 && temp == 's')
-        //    {
-        //        //Datanum.Clear();
-        //        temp = serialPort1.ReadChar();
-        //        this.Invoke((MethodInvoker)delegate { richTextBox1.AppendText("x:" + temp + " "); });
-        //        //Datanum.Append((char)temp);
-        //        //Double.TryParse(temp, out x_pos);
-        //        x_pos = temp;
-        //        temp = serialPort1.ReadChar();
-        //        this.Invoke((MethodInvoker)delegate { richTextBox1.AppendText("y:" + temp + "\n"); });
-        //        //Datanum.Clear();
-        //        //Datanum.Append((char)temp);
-        //        //Double.TryParse(Datanum.ToString(), out y_pos);
-        //        y_pos = temp;
-        //        this.Invoke((MethodInvoker)delegate { UpdateChart(); });
-        //        stat = 0;
-        //    }
-        //    return stat;
-        //}
-
         private int get_data3(int stat)
         {
             buffer = new byte[24];
@@ -540,21 +499,6 @@ namespace xy_Chart
                 fS.Write(buffer, 0, 24);
                 fullfS.Write(buffer, 0, 24);
                 buffList.AddRange(buffer);
-                #region singlethread mode
-                //if (!Sel_Man.Checked)
-                //{
-                //    x_pos = BitConverter.ToSingle(buffer, 0);
-                //    y_pos = BitConverter.ToSingle(buffer, 4);
-                //    z_pos = BitConverter.ToSingle(buffer, 8);
-                //}
-                //if (!Sel_Auto.Checked)
-                //{
-                //    manual_x = BitConverter.ToSingle(buffer, 12);
-                //    manual_y = BitConverter.ToSingle(buffer, 16);
-                //    manual_z = BitConverter.ToSingle(buffer, 20);
-                //}
-                //this.Invoke((MethodInvoker)delegate { UpdateChart(); });
-                #endregion
                 dumpbuff = serialPort1.ReadExisting();
                 fullfS.Write(Encoding.Unicode.GetBytes(dumpbuff), 0, dumpbuff.Length);
                 stat = 0;
@@ -637,49 +581,5 @@ namespace xy_Chart
             if (Chart_Thread.IsAlive) Chart_Thread.Abort();
         }
 
-        //private void receive_data()
-        //{ 
-        //    while (buff.Count > 24)
-        //    {
-        //        get_data4();
-        //    }
-        //}
-
-        //private void get_data4()
-        //{
-        //    if (buff.Count < 1) return;
-        //    byte sdata = buff[0];
-        //    buff.RemoveAt(0);
-        //    if (sdata == 'i' && stat == 0) stat = 1;
-        //    else if (sdata == 't' && stat == 1) stat = 2;
-        //    else if (sdata == 's' && stat == 2)
-        //    {
-        //        stat = 0;
-        //        buffer = new byte[24];
-        //        while (buff.Count < 48) ;
-        //        cutbuff = buff.GetRange(0, 24);
-        //        buff.RemoveRange(0, 24);
-        //        buffer = cutbuff.ToArray();
-        //        if (!Sel_Man.Checked)
-        //        {
-        //            //x_pos = BitConverter.ToInt32(buffer, 0);
-        //            //y_pos = BitConverter.ToInt32(buffer, 2);
-        //            //z_pos = BitConverter.ToInt32(buffer, 4);
-        //            x_pos = BitConverter.ToSingle(buffer, 0);
-        //            y_pos = BitConverter.ToSingle(buffer, 4);
-        //            z_pos = BitConverter.ToSingle(buffer, 8);
-        //        }
-        //        //xarr[xarr.Length - 1] = x_pos;
-        //        if (!Sel_Auto.Checked)
-        //        {
-        //            manual_x = BitConverter.ToSingle(buffer, 12);
-        //            manual_y = BitConverter.ToSingle(buffer, 16);
-        //            manual_z = BitConverter.ToSingle(buffer, 20);
-        //        }
-        //        this.Invoke((MethodInvoker)delegate { UpdateChart(); });
-        //        //Thread.Sleep(10);
-        //    }
-        //    else stat = 0;
-        //}
     }
 }
