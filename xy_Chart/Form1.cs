@@ -75,6 +75,8 @@ namespace xy_Chart
             fileList = Directory.GetFiles("records");
             foreach (string filePath in fileList) recordList.Items.Add(Path.GetFileName(filePath));
             replayBtn.Enabled = false;
+            fullPlayBtn.Enabled = false;
+            pauseBtn.Enabled = false;
             pathText.Text = DateTime.Now.ToString("dd-MM-yy_hh-mm-ss-tt");
         }
 
@@ -241,109 +243,9 @@ namespace xy_Chart
             Group_Manual.Enabled = true;
             Group_Auto.Enabled = true;
         }
-
-        private void serialPort1_DataReceived(object sender, SerialDataReceivedEventArgs e)
-        {
-            //while (Active && serialPort1.BytesToRead > 0)
-            //{
-            //    byteBuf = (byte)serialPort1.ReadChar();
-            //    buff.Add(byteBuf);
-            //    sW.Write((char)byteBuf);
-            //    if (!serialPort1.IsOpen) break;
-            //    //buff.Add((char)serialPort1.ReadChar());
-            //}
-            //Serial_Thread = new Thread(new ThreadStart(receive_data));
-            //Serial_Thread.Start();
-            //////proses_buffer();
-        }
         
 
-        //private void proses_buffer()
-        //{
-        //    while (buff.Count > 0)
-        //    {
-        //        char temp = buff[0];
-        //        olah_data(temp);
-        //        buff.RemoveAt(0);
-        //    }
-        //}
-
-        //public void olah_data(char data_serial)
-        //{
-        //    if (data_serial == '@') { kondisi = 1; penanda_data = 1; }
-        //    else if (data_serial == '$') { kondisi = 2; penanda_data = 2; }
-        //    else if (data_serial == '*') { kondisi = 3; penanda_data = 3; }
-        //    else if (data_serial == '#') kondisi = 0;
-
-        //    if (kondisi == 1)
-        //    {
-        //        if (data_serial == ',')
-        //        {
-        //            if (tanda == 0) x_temp = Convert.ToInt32(data_masuk);
-        //            if (tanda == 1) y_temp = Convert.ToInt32(data_masuk);
-        //            data_masuk = "";
-        //            tanda++;
-        //        }
-
-        //        if (data_serial != '@' && data_serial != '$' && data_serial != '*' && data_serial != ',')
-        //        {
-        //            data_masuk = data_masuk + Convert.ToString(data_serial);
-        //            //textBox2.AppendText(data_masuk);
-        //        }
-        //    }
-        //    else if (kondisi == 2)
-        //    {
-        //        if (data_serial == ',')
-        //        {
-        //            if (tanda == 0) x_tampil = Convert.ToInt32(data_masuk);
-        //            if (tanda == 1) y_tampil = Convert.ToInt32(data_masuk);
-        //            data_masuk = "";
-        //            //textBox2.Clear();
-        //            tanda++;
-        //        }
-
-        //        if (data_serial != '@' && data_serial != '$' && data_serial != '*' && data_serial != ',')
-        //        {
-        //            data_masuk = data_masuk + Convert.ToString(data_serial);
-        //            //textBox2.AppendText(data_masuk);
-        //        }
-        //    }
-        //    else if (kondisi == 3)
-        //    {
-        //        if (data_serial != '@' && data_serial != '$' && data_serial != '*' && data_serial != ',')
-        //        {
-        //            data_masuk = data_masuk + Convert.ToString(data_serial);
-        //            //textBox2.AppendText(data_masuk);
-        //        }
-        //    }
-        //    else if (kondisi == 0)
-        //    {
-        //        tanda = 0;
-
-        //        if (penanda_data == 1)
-        //        {
-        //            teta_temp = Convert.ToInt32(data_masuk);
-
-        //            data_x.Add(x_temp);
-        //            data_y.Add(y_temp);
-        //            data_teta.Add(teta_temp);
-        //        }
-        //        else if (penanda_data == 2)
-        //        {
-        //            teta_tampil = Convert.ToInt32(data_masuk);
-
-        //            data_x_tracking.Add(x_tampil);
-        //            data_y_tracking.Add(y_tampil);
-        //            data_teta_tracking.Add(teta_tampil);
-        //        }
-
-        //        data_masuk = "";
-        //        //textBox2.Clear();
-        //        //textBox2.Text = "x=" + x_tampil+" y="+y_tampil+" o="+teta_tampil;
-        //        //this.Invoke(new EventHandler(tampil));
-        //        this.Invoke((MethodInvoker)delegate { UpdateChart2(); });
-        //    }
-        //}
+        
 
         private void button1_Click(object sender, EventArgs e)//go button
         {
@@ -369,28 +271,60 @@ namespace xy_Chart
 
         private void replayBtn_Click(object sender, EventArgs e)
         {
-            fS = new FileStream("records/" + recordList.Text, FileMode.Open, FileAccess.Read);
-            buffList = new List<byte>();
-            //buffList.AddRange(fS.re)
-            buffList = new List<byte>();
-            xList = new List<float>();
-            yList = new List<float>();
-            zList = new List<float>();
-            sensorList = new List<byte>();
-            buffer = new byte[fS.Length];
-            fS.Read(buffer, 0, (int)fS.Length);
-            buffList.AddRange(buffer);
-            richTextBox1.AppendText(Encoding.UTF8.GetString(buffer).ToString());
-            fS.Close();
-            richTextBox1.AppendText(recordList.Text +" size: "+buffList.Count.ToString()+"bytes\n");
-            if (recordList.Text.Contains(".full")) delay = 1;
-            else delay = 10;
-            Active = true;
-            replay = true;
-            data_Thread = new Thread(new ThreadStart(convert_data));
-            data_Thread.Start();
-            Chart_Thread = new Thread(new ThreadStart(show_data));
-            Chart_Thread.Start();
+            if (replayBtn.Text == "Replay")
+            {
+                fS = new FileStream("records/" + recordList.Text, FileMode.Open, FileAccess.Read);
+                replayBtn.Text = "Stop";
+                pauseBtn.Enabled = true;
+                buffList = new List<byte>();
+                //buffList.AddRange(fS.re)
+                buffList = new List<byte>();
+                xList = new List<float>();
+                yList = new List<float>();
+                zList = new List<float>();
+                sensorList = new List<byte>();
+                buffer = new byte[fS.Length];
+                fS.Read(buffer, 0, (int)fS.Length);
+                buffList.AddRange(buffer);
+                //richTextBox1.AppendText(Encoding.UTF8.GetString(buffer).ToString());
+                fS.Close();
+                richTextBox1.AppendText(recordList.Text + " size: " + buffList.Count.ToString() + "bytes\n");
+                if (recordList.Text.Contains(".full")) delay = 1;
+                else delay = 1;
+                Active = true;
+                replay = true;
+                int prog = buffList.Count;
+                progressBar1.Maximum = prog;
+                while (buffList.Count > 0)
+                {
+                    progressBar1.Value = prog - buffList.Count;
+                    temp = buffList[0];
+                    buffList.RemoveAt(0);
+                    if (stat == 0 && temp == 'i') { stat = 1; }
+                    else if (stat == 1 && temp == 't') { stat = 2; }
+                    else if (stat == 2 && temp == 's' && buffList.Count > 24)
+                    {
+                        tembuf = buffList.GetRange(0, 24).ToArray();
+                        buffList.RemoveRange(0, 24);
+                        xList.Add(BitConverter.ToSingle(tembuf, 0));
+                        yList.Add(BitConverter.ToSingle(tembuf, 4));
+                        zList.Add(BitConverter.ToSingle(tembuf, 8));
+                        sensorList.Add(tembuf[12]);
+                        sensorList.Add(tembuf[13]);
+                        stat = 0;
+                    }
+                }
+                Data_track.Maximum = xList.Count - 1;
+                Chart_Thread = new Thread(new ThreadStart(show_data));
+                Chart_Thread.Start();
+            }
+            else
+            {
+                Turnoff();
+                replayBtn.Text = "Replay";
+                fullPlayBtn.Enabled = false;
+                pauseBtn.Enabled = false;
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -426,12 +360,20 @@ namespace xy_Chart
 
         private void pauseBtn_Click(object sender, EventArgs e)
         {
-            Turnoff();
+            Active = false;
+            fullPlayBtn.Enabled = true;
+            pauseBtn.Enabled = false;
         }
-
-        private void recordList_SelectedIndexChanged(object sender, EventArgs e)
+        
+        private void Data_track_ValueChanged(object sender, EventArgs e)
         {
-
+            int i = Data_track.Value;
+            x_pos = xList[i];
+            y_pos = yList[i];
+            z_pos = zList[i];
+            sensor_vals = sensorList[i * 2];
+            analogval = sensorList[i * 2 + 1];
+            UpdateChart();
         }
 
         private int get_new_width(char type)
@@ -483,6 +425,16 @@ namespace xy_Chart
             //richTextBox1.AppendText($"Moved to :({x_pos}, {y_pos})\n");
         }
 
+        private void fullPlayBtn_Click(object sender, EventArgs e)
+        {
+            Active = true;
+            replay = true;
+            Chart_Thread = new Thread(new ThreadStart(show_data));
+            Chart_Thread.Start();
+            pauseBtn.Enabled = true;
+            fullPlayBtn.Enabled = false;
+        }
+
         private int get_data3(int stat)
         {
             buffer = new byte[24];
@@ -513,27 +465,7 @@ namespace xy_Chart
             stat = 0;
             while (Active)
             {
-                if (replay)
-                {
-                    temp = buffList[0];
-                    buffList.RemoveAt(0);
-                    if (stat == 0 && temp == 'i') { stat = 1; }
-                    else if (stat == 1 && temp == 't') { stat = 2; }
-                    else if (stat == 2 && temp == 's' && buffList.Count > 24)
-                    {
-                        tembuf = buffList.GetRange(0, 24).ToArray();
-                        buffList.RemoveRange(0, 24);
-                        xList.Add(BitConverter.ToSingle(tembuf, 0));
-                        yList.Add(BitConverter.ToSingle(tembuf, 4));
-                        zList.Add(BitConverter.ToSingle(tembuf, 8));
-                        sensorList.Add(tembuf[12]);
-                        sensorList.Add(tembuf[13]);
-                        stat = 0;
-                    }
-                    else stat = 0;
-                    Thread.Sleep(delay);
-                }
-                else if( buffList.Count > 24)
+                if ( buffList.Count > 24)
                 {
                     tembuf = buffList.GetRange(0, 24).ToArray();
                     buffList.RemoveRange(0, 24);
@@ -543,15 +475,27 @@ namespace xy_Chart
                     sensorList.Add(tembuf[12]);
                     sensorList.Add(tembuf[13]);
                 }
-                if (buffList.Count < 24 && replay) break;
+                if (buffList.Count < 24) break;
             }
         }
 
         private void show_data()
         {
+            int i = 0;
+            Invoke((MethodInvoker)delegate { i = getTrack(); });
             while (Active)
             {
-                if (!Sel_Man.Checked && xList.Count>5 && yList.Count>5 && zList.Count>5 && sensorList.Count>6)
+                if (replay)
+                {
+                    Invoke((MethodInvoker)delegate { if (getTrack() != i) { i = getTrack(); Active = false; fullPlayBtn.Enabled = true; pauseBtn.Enabled = false; } });
+                    if (i < Data_track.Maximum)
+                    {
+                       Invoke((MethodInvoker)delegate { setTrack(++i); });
+                       Thread.Sleep(delay);
+                    }
+                    else Active = false;                    
+                }
+                else if (!Sel_Man.Checked && xList.Count>5 && yList.Count>5 && zList.Count>5 && sensorList.Count>6)
                 {
                     x_pos = xList[0];
                     y_pos = yList[0];
@@ -570,6 +514,17 @@ namespace xy_Chart
                 }
                 if (replay && (xList.Count < 0 || yList.Count < 0 || zList.Count < 0 || sensorList.Count < 0)) Turnoff();
             }
+            Turnoff();
+        }
+
+        public int getTrack()
+        {
+            return Data_track.Value;
+        }
+
+        public void setTrack(int nval)
+        {
+            Data_track.Value = nval;
         }
 
         public void Turnoff()
@@ -577,7 +532,11 @@ namespace xy_Chart
             Active = false;
             replay = false;
             //if (Serial_Thread.IsAlive) Serial_Thread.Abort();
-            if (data_Thread.IsAlive) data_Thread.Abort();
+            try {
+                if (data_Thread.IsAlive) data_Thread.Abort();
+            }
+            catch (Exception) { }
+                
             if (Chart_Thread.IsAlive) Chart_Thread.Abort();
         }
 

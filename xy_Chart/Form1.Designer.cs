@@ -81,14 +81,14 @@
             this.history_enable = new System.Windows.Forms.CheckBox();
             this.Group_Log = new System.Windows.Forms.GroupBox();
             this.Group_Record = new System.Windows.Forms.GroupBox();
+            this.Data_track = new System.Windows.Forms.TrackBar();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
+            this.track2 = new System.Windows.Forms.HScrollBar();
             this.recordList = new System.Windows.Forms.ComboBox();
             this.pathText = new System.Windows.Forms.TextBox();
             this.pauseBtn = new System.Windows.Forms.Button();
             this.fullPlayBtn = new System.Windows.Forms.Button();
             this.replayBtn = new System.Windows.Forms.Button();
-            this.Data_track = new System.Windows.Forms.TrackBar();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.Group_Auto.SuspendLayout();
             this.Group_Manual.SuspendLayout();
@@ -252,8 +252,7 @@
             // serialPort1
             // 
             this.serialPort1.BaudRate = 115200;
-            this.serialPort1.PortName = "COM4";
-            this.serialPort1.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.serialPort1_DataReceived);
+            this.serialPort1.PortName = "COM5";
             // 
             // Clear_btn
             // 
@@ -642,7 +641,7 @@
             // 
             this.Group_Record.Controls.Add(this.Data_track);
             this.Group_Record.Controls.Add(this.progressBar1);
-            this.Group_Record.Controls.Add(this.hScrollBar1);
+            this.Group_Record.Controls.Add(this.track2);
             this.Group_Record.Controls.Add(this.recordList);
             this.Group_Record.Controls.Add(this.pathText);
             this.Group_Record.Controls.Add(this.pauseBtn);
@@ -655,6 +654,14 @@
             this.Group_Record.TabStop = false;
             this.Group_Record.Text = "Record ";
             // 
+            // Data_track
+            // 
+            this.Data_track.Location = new System.Drawing.Point(35, 197);
+            this.Data_track.Name = "Data_track";
+            this.Data_track.Size = new System.Drawing.Size(138, 45);
+            this.Data_track.TabIndex = 7;
+            this.Data_track.ValueChanged += new System.EventHandler(this.Data_track_ValueChanged);
+            // 
             // progressBar1
             // 
             this.progressBar1.Location = new System.Drawing.Point(35, 166);
@@ -662,12 +669,12 @@
             this.progressBar1.Size = new System.Drawing.Size(138, 23);
             this.progressBar1.TabIndex = 6;
             // 
-            // hScrollBar1
+            // track2
             // 
-            this.hScrollBar1.Location = new System.Drawing.Point(35, 135);
-            this.hScrollBar1.Name = "hScrollBar1";
-            this.hScrollBar1.Size = new System.Drawing.Size(138, 19);
-            this.hScrollBar1.TabIndex = 5;
+            this.track2.Location = new System.Drawing.Point(35, 135);
+            this.track2.Name = "track2";
+            this.track2.Size = new System.Drawing.Size(138, 19);
+            this.track2.TabIndex = 5;
             // 
             // recordList
             // 
@@ -676,7 +683,6 @@
             this.recordList.Name = "recordList";
             this.recordList.Size = new System.Drawing.Size(130, 21);
             this.recordList.TabIndex = 4;
-            this.recordList.SelectedIndexChanged += new System.EventHandler(this.recordList_SelectedIndexChanged);
             this.recordList.SelectionChangeCommitted += new System.EventHandler(this.recordList_SelectionChangeCommitted);
             // 
             // pathText
@@ -689,7 +695,7 @@
             // 
             // pauseBtn
             // 
-            this.pauseBtn.Location = new System.Drawing.Point(98, 85);
+            this.pauseBtn.Location = new System.Drawing.Point(96, 100);
             this.pauseBtn.Name = "pauseBtn";
             this.pauseBtn.Size = new System.Drawing.Size(75, 23);
             this.pauseBtn.TabIndex = 2;
@@ -703,7 +709,9 @@
             this.fullPlayBtn.Name = "fullPlayBtn";
             this.fullPlayBtn.Size = new System.Drawing.Size(75, 23);
             this.fullPlayBtn.TabIndex = 1;
+            this.fullPlayBtn.Text = "Play";
             this.fullPlayBtn.UseVisualStyleBackColor = true;
+            this.fullPlayBtn.Click += new System.EventHandler(this.fullPlayBtn_Click);
             // 
             // replayBtn
             // 
@@ -714,13 +722,6 @@
             this.replayBtn.Text = "Replay";
             this.replayBtn.UseVisualStyleBackColor = true;
             this.replayBtn.Click += new System.EventHandler(this.replayBtn_Click);
-            // 
-            // Data_track
-            // 
-            this.Data_track.Location = new System.Drawing.Point(35, 197);
-            this.Data_track.Name = "Data_track";
-            this.Data_track.Size = new System.Drawing.Size(138, 45);
-            this.Data_track.TabIndex = 7;
             // 
             // Form1
             // 
@@ -794,7 +795,7 @@
         private System.Windows.Forms.Button replayBtn;
         private System.Windows.Forms.ComboBox recordList;
         private System.Windows.Forms.ProgressBar progressBar1;
-        private System.Windows.Forms.HScrollBar hScrollBar1;
+        private System.Windows.Forms.HScrollBar track2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox analogSensor;
         private System.Windows.Forms.CheckBox checkBox8;
